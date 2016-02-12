@@ -1,0 +1,10 @@
+# rename this file to 'config.local.neon' and fill in MySQL user & password
+
+parameters:
+
+database:
+	dsn: 'mysql:host=127.0.0.1;dbname=weatherhub'
+	user: XXXXX
+	password: XXXXX
+	options:
+		lazy: yes
