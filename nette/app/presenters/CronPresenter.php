@@ -68,6 +68,9 @@ class CronPresenter extends BasePresenter {
 			//dump($data->result->devices[0]->measurements);
 			// Create array of important values for database
 			$insertArr = array();
+			if (!isset($data->result)) {
+				continue;
+			}
 			foreach ($data->result->devices as $device) {
 				//TODO: Auto update of name & devicetypeid in DB?
 				foreach ($device->measurements as $measurement) {
@@ -90,7 +93,7 @@ class CronPresenter extends BasePresenter {
 			// Insert and ignore existing (PRIMARY KEY = deviceid+ts)
 			$this->database->query('INSERT IGNORE INTO measurement ?', $insertArr);
 		}
-		
+
 		echo 'ok';
 		$this->terminate();
 	}
