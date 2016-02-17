@@ -57,14 +57,21 @@ class HomepagePresenter extends BasePresenter {
 		$this->redirect('Homepage:', array('from' => $from, 'to' => $to));
 	}
 
-	public function renderDefault($from, $to) {
+	public function actionDefault($from, $to) {
+		// Initialize DateTime objects
+		$this->from = new \Nette\Utils\DateTime();
+		$this->to = new \Nette\Utils\DateTime();
+
+		// Set default / requested dates
 		if (!isset($from) || !isset($to)) {
-			// Show 3 last days (!= 72 hours) 
-			$this->from = new \Nette\Utils\DateTime();
+			// Default - show 3 last days (!= 72 hours) 
 			$this->from->sub(new \DateInterval('P2D')); // Today and 2 days in the past
 			$this->from->setTime(0, 0, 0);
-			$this->to = new \Nette\Utils\DateTime();
+		} else {
+			$this->from->setTimestamp($from);
+			$this->to->setTimestamp($to);
 		}
+		
 		// Send data to template
 		$this->template->devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 		$this->template->from = $this->from->getTimestamp();
