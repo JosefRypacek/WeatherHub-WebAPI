@@ -98,8 +98,7 @@ class CronPresenter extends BasePresenter {
 		$this->terminate();
 	}
 
-	private
-			function getQuery($deviceids, $measurementfroms, $phoneInfo) {
+	private function getQuery($deviceids, $measurementfroms, $phoneInfo) {
 		$paramsArr = array(
 			'devicetoken' => $phoneInfo['devicetoken'],
 			'vendorid' => $phoneInfo['vendorid'],

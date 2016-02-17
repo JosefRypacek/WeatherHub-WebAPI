@@ -6,6 +6,12 @@ use Nette\Application\UI;
 
 class HomepagePresenter extends BasePresenter {
 
+	/**
+	 * from, to
+	 * DateTime - always set by renderDefault
+	 */
+	private $from, $to;
+
 	protected function startup() {
 		parent::startup();
 
@@ -31,17 +37,12 @@ class HomepagePresenter extends BasePresenter {
 				->setReadOnly(FALSE)
 				->setRequired();
 
-		if ($this->getParameter('from') !== null && $this->getParameter('to') !== null) {
-			$from = new \Nette\Utils\DateTime();
-			$to = new \Nette\Utils\DateTime();
-			$from->setTimestamp($this->getParameter('from'));
-			$to->setTimestamp($this->getParameter('to'));
-			// set default value
-			$form->setDefaults(array(
-				'from' => $from,
-				'to' => $to
-			));
-		}
+		// set default values
+		$form->setDefaults(array(
+			'from' => $this->from,
+			'to' => $this->to
+		));
+
 
 		$form->addSubmit('send', 'Nastavit');
 
@@ -58,14 +59,16 @@ class HomepagePresenter extends BasePresenter {
 
 	public function renderDefault($from, $to) {
 		if (!isset($from) || !isset($to)) {
-			// all time - can be slow...
-			$from = 0;
-			$to = time();
+			// Show 3 last days (!= 72 hours) 
+			$this->from = new \Nette\Utils\DateTime();
+			$this->from->sub(new \DateInterval('P2D')); // Today and 2 days in the past
+			$this->from->setTime(0, 0, 0);
+			$this->to = new \Nette\Utils\DateTime();
 		}
 		// Send data to template
 		$this->template->devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
-		$this->template->from = $from;
-		$this->template->to = $to;
+		$this->template->from = $this->from->getTimestamp();
+		$this->template->to = $this->to->getTimestamp();
 	}
 
 }
