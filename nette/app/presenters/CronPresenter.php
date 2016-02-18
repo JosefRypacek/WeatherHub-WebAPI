@@ -47,6 +47,11 @@ class CronPresenter extends BasePresenter {
 			$json = curl_exec($curl);
 			curl_close($curl);
 
+			if ($json === FALSE) {
+				echo 'failed';
+				$this->terminate();
+			}
+			
 			// Convert data from json to array
 			$data = json_decode($json);
 			unset($json);
