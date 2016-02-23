@@ -14,7 +14,7 @@ class CronPresenter extends BasePresenter {
 
 		// Select devices and last stored measurement (ts + device_id) for each user
 		foreach ($this->database->table('user') as $user) {
-			$devices = $user->related('device');
+			$devicesDb = $user->related('device');
 
 			// Get user personal values for query
 			$phoneInfo = array(
@@ -26,7 +26,7 @@ class CronPresenter extends BasePresenter {
 			// Make parameters for query
 			$deviceids = '';
 			$measurementfroms = '';
-			foreach ($devices as $device) {
+			foreach ($devicesDb as $device) {
 				$deviceids .= $device->id . ',';
 				$measurementfroms .= $device->related('measurement')->max('ts') + 1 . ','; // Works for empty table too
 			}
@@ -77,7 +77,12 @@ class CronPresenter extends BasePresenter {
 				continue;
 			}
 			foreach ($data->result->devices as $device) {
-				//TODO: Auto update of name & devicetypeid in DB?
+				// auto update of name stored in DB
+				$deviceDb = $devicesDb->get($device->deviceid);
+				if($device->name != $deviceDb->name){
+					$deviceDb->update(['name' => $device->name]);
+				}
+				// Store measurements
 				foreach ($device->measurements as $measurement) {
 					// Common values for devicetypeid 2 & 3
 					$insertRow = array(
