@@ -54,7 +54,7 @@ class ChartsPresenter extends BasePresenter {
 		// set time to midnight
 		$from = $values->from->setTime(0, 0, 0)->getTimestamp();
 		$to = $values->to->setTime(23, 59, 59)->getTimestamp();
-		$this->redirect('Homepage:', array('from' => $from, 'to' => $to));
+		$this->redirect('Charts:', array('from' => $from, 'to' => $to));
 	}
 
 	public function actionDefault($from, $to) {
