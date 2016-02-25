@@ -13,6 +13,43 @@
 
 {block scripts}
 {include parent}
+
+		<script type="text/javascript">
+			$(document).ready(function ()
+			{
+				$('input.datepicker').datepicker(
+						{
+							firstDay: 1,
+							changeMonth: true,
+							changeYear: true,
+							//dateFormat: 'mm/dd/yy',
+							dateFormat: 'dd.mm.yy',
+							yearRange: '2016:2026'
+						});
+			});
+			$.datepicker.regional['cs'] = {
+				                closeText: 'Cerrar',
+				                prevText: 'Předchozí',
+				                nextText: 'Další',
+				                currentText: 'Hoy',
+				                monthNames: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+				                monthNamesShort: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+//				                monthNamesShort: ['Le', 'Ún', 'Bř', 'Du', 'Kv', 'Čn', 'Čc', 'Sr', 'Zá', 'Ří', 'Li', 'Pr'],
+				                dayNames: ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'],
+				                dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So', ],
+				                dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
+				                weekHeader: 'Sm',
+				                dateFormat: 'dd.mm.yy',
+				                firstDay: 1,
+				                isRTL: false,
+				                showMonthAfterYear: false,
+				                yearSuffix: ''};
+ 
+			$.datepicker.setDefaults($.datepicker.regional['cs']);
+
+		</script>
+		
+		
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" n:syntax="double">
 	google.charts.load('current', {'packages': ['corechart']});
@@ -44,7 +81,11 @@
 			legend: {position: 'bottom'},
 		{{if $device->type == 3}}
 	series: {
-		0: {targetAxisIndex: 0},
+		0: {targetAxisIndex: 0,
+		{{if !empty($device->color)}}
+			color: {{$device->color}},
+		{{/if}}
+		},
 		1: {targetAxisIndex: 1}
 	},
 	vAxes: {
@@ -52,6 +93,13 @@
 		1: {/*title: 'Vlhkost (%)' */ format:'# \'%\''}
 	},
 		{{else}}
+		
+	{{if !empty($device->color)}}
+	series: {
+		0: {color: {{$device->color}}}
+	},
+	{{/if}}
+		
 	vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
 		{{/if}}
 	};
@@ -88,7 +136,7 @@
 			{{/for}}
 	tmpData.push(oneRow);
 		{{/foreach}}
-		{{$current++}}
+		{{var $current = $current +1}}
 	{{/foreach}}
 
 	data.addRows(tmpData);
@@ -96,6 +144,15 @@
 		title: 'ALL in ONE',
 		legend: {position: 'bottom'},
 		vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
+		series: {
+	{{var $current = 0}}
+	{{foreach $devices as $device}}
+	{{if !empty($device->color)}}
+			{{$current}}: {color: {{$device->color}}},
+	{{/if}}
+	{{var $current = $current +1}}
+	{{/foreach}}			
+		}
 	};
 	formatter_date.format(data, 0);
 	{{for $i = 0; $i < $max; $i++}}

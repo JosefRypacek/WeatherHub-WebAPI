@@ -54,13 +54,13 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" n:href="Homepage:">WeatherHub WebAPI</a>
+						<a class="navbar-brand" n:href="Charts:">WeatherHub WebAPI</a>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
-						<!--						<ul class="nav navbar-nav">
-													<li class="active"><a href="#">Home</a></li>
-													<li><a href="#">About</a></li>
-													<li><a href="#">Contact</a></li>
+												<ul class="nav navbar-nav">
+													<li n:class="$presenter->isLinkCurrent('Charts:') ? active"><a n:href="Charts:">Grafy</a></li>
+													<li n:class="$presenter->isLinkCurrent('Settings:')? active"><a n:href="Settings:">Nastavení</a></li>
+													<!--<li><a href="#">Contact</a></li>
 													<li class="dropdown">
 														<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
 														<ul class="dropdown-menu">
@@ -72,8 +72,8 @@
 															<li><a href="#">Separated link</a></li>
 															<li><a href="#">One more separated link</a></li>
 														</ul>
-													</li>
-												</ul>-->
+													</li>-->
+												</ul>
 						<ul class="nav navbar-nav navbar-right">
 							{if $user->isLoggedIn()}
 								<li><a n:href="Sign:out">Odhlásit</a></li>
@@ -100,40 +100,6 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-		<script type="text/javascript">
-			$(document).ready(function ()
-			{
-				$('input.datepicker').datepicker(
-						{
-							firstDay: 1,
-							changeMonth: true,
-							changeYear: true,
-							//dateFormat: 'mm/dd/yy',
-							dateFormat: 'dd.mm.yy',
-							yearRange: '2016:2026'
-						});
-			});
-			$.datepicker.regional['cs'] = {
-				                closeText: 'Cerrar',
-				                prevText: 'Předchozí',
-				                nextText: 'Další',
-				                currentText: 'Hoy',
-				                monthNames: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-				                monthNamesShort: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-//				                monthNamesShort: ['Le', 'Ún', 'Bř', 'Du', 'Kv', 'Čn', 'Čc', 'Sr', 'Zá', 'Ří', 'Li', 'Pr'],
-				                dayNames: ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'],
-				                dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So', ],
-				                dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
-				                weekHeader: 'Sm',
-				                dateFormat: 'dd.mm.yy',
-				                firstDay: 1,
-				                isRTL: false,
-				                showMonthAfterYear: false,
-				                yearSuffix: ''};
- 
-			$.datepicker.setDefaults($.datepicker.regional['cs']);
-
-		</script>
 		{/block}
 	</body>
 </html>

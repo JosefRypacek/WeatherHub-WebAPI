@@ -4,7 +4,7 @@ namespace App\Presenters;
 
 use Nette\Application\UI;
 
-class HomepagePresenter extends BasePresenter {
+class ChartsPresenter extends BasePresenter {
 
 	/**
 	 * from, to

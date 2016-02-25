@@ -69,7 +69,7 @@ class CronPresenter extends BasePresenter {
 
 			// Example dumps of interesting parts of response
 			//dump($data);
-			//dump($data->result->devices);
+//			dump($data->result->devices);
 			//dump($data->result->devices[0]->measurements);
 			// Create array of important values for database
 			$insertArr = array();
