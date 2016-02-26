@@ -163,7 +163,10 @@
 	}
 
 	$(window).resize(function(){
-		drawChart();
+		var r = confirm("Změnila se velikost stránky. Chceš překreslit grafy?");
+		if (r == true) {
+			drawChart();
+		}
 	});
 </script>
 {/block}
