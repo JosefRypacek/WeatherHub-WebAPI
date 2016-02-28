@@ -4,7 +4,9 @@ namespace App\Presenters;
 
 use Nette\Application\UI;
 
-class ChartsPresenter extends BasePresenter {
+
+class ChartsPresenter extends BasePresenter
+{
 
 	/**
 	 * from, to
@@ -12,7 +14,8 @@ class ChartsPresenter extends BasePresenter {
 	 */
 	private $from, $to;
 
-	protected function startup() {
+	protected function startup()
+	{
 		parent::startup();
 
 		if (!$this->user->isLoggedIn()) {
@@ -22,7 +25,8 @@ class ChartsPresenter extends BasePresenter {
 		\RadekDostal\NetteComponents\DateTimePicker\DatePicker::register();
 	}
 
-	protected function createComponentDateForm() {
+	protected function createComponentDateForm()
+	{
 		$form = new UI\Form;
 
 		$form->addDatePicker('from', 'Od (00:00:00):', 10)
@@ -50,14 +54,16 @@ class ChartsPresenter extends BasePresenter {
 		return $form;
 	}
 
-	public function dateFormSucceeded(UI\Form $form, $values) {
+	public function dateFormSucceeded(UI\Form $form, $values)
+	{
 		// set time to midnight
 		$from = $values->from->setTime(0, 0, 0)->getTimestamp();
 		$to = $values->to->setTime(23, 59, 59)->getTimestamp();
 		$this->redirect('Charts:', array('from' => $from, 'to' => $to));
 	}
 
-	public function actionDefault($from, $to) {
+	public function actionDefault($from, $to)
+	{
 		// Initialize DateTime objects
 		$this->from = new \Nette\Utils\DateTime();
 		$this->to = new \Nette\Utils\DateTime();
@@ -71,11 +77,61 @@ class ChartsPresenter extends BasePresenter {
 			$this->from->setTimestamp($from);
 			$this->to->setTimestamp($to);
 		}
-		
+
 		// Send data to template
 		$this->template->devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 		$this->template->from = $this->from->getTimestamp();
 		$this->template->to = $this->to->getTimestamp();
+	}
+
+	public function actionGet1Y()
+	{
+		// Initialize DateTime objects
+		$this->from = new \Nette\Utils\DateTime();
+		$this->to = new \Nette\Utils\DateTime();
+		$this->from->sub(new \DateInterval('P1Y')); // Today and 2 days in the past
+		$this->from->setTime(0, 0, 0);
+
+		require_once (__DIR__ . '/../../../jpgraph/jpgraph.php');
+		require_once (__DIR__ . '/../../../jpgraph/jpgraph_line.php');
+		require_once(__DIR__ . '/../../../jpgraph/jpgraph_date.php');
+
+
+		// Setup the graph
+		$graph = new \Graph(1280, 550);
+		$graph->SetScale('datlin');
+
+		$graph->yaxis->HideTicks(false, false);
+		$graph->xgrid->Show();
+		$graph->xgrid->SetColor('#E3E3E3');
+
+
+		$graph->xaxis->SetLabelAngle(90); // Set the angle for the labels to 90 degrees
+		$graph->xaxis->scale->SetDateFormat('j. n. Y - H:i'); // The automatic format string for dates can be overridden
+		$graph->xaxis->scale->SetTimeAlign(MINADJ_5); // Adjust the start/end to a specific alignment
+		// Prepare data
+		$devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
+
+		foreach ($devices as $device) {
+			$datay1 = array();
+			$datax1 = array();
+			foreach ($device->related('measurement')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp())) as $value) {
+				$datax1[] = $value->ts;
+				$datay1[] = $value->t1;
+			}
+
+			// Create line
+			$p1 = new \LinePlot($datay1, $datax1);
+			$graph->Add($p1);
+			$color = $device->color ? $device->color : '#000000';
+			$p1->SetColor($color);
+			$p1->SetLegend($device->name);
+		}
+
+
+		$graph->legend->SetFrameWeight(1); // border around legend
+
+		$graph->Stroke(); // generate graph
 	}
 
 }
