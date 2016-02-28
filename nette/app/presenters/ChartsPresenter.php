@@ -98,7 +98,7 @@ class ChartsPresenter extends BasePresenter
 
 
 		// Setup the graph
-		$graph = new \Graph(1280, 550);
+		$graph = new \Graph(1900, 800);
 		$graph->SetScale('datlin');
 
 		$graph->yaxis->HideTicks(false, false);
