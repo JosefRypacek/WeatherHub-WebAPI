@@ -162,11 +162,36 @@
 	chart.draw(data, options);
 	}
 
+	var wWidth = $(window).width(); // default width
+	var time = 0;
+	
 	$(window).resize(function(){
+		var date = new Date();
+		timeNew = date.getTime();
+		
+		console.log(timeNew - time);
+		if(timeNew - time < 500){ // 500ms 
+			// do not handle duplicated dialog & redraw
+			return;
+		}
+		
+		var oldWidth = wWidth;
+		wWidth = $(window).width();
+		
+		
+		if(oldWidth == wWidth){
+			// do NOT handle height change
+			return;
+		}
+		
 		var r = confirm("Změnila se velikost stránky. Chceš překreslit grafy?");
 		if (r == true) {
 			drawChart();
 		}
+		
+		// set time when user clicked OK / Cancel
+		var date = new Date();
+		time = date.getTime();
 	});
 </script>
 {/block}
