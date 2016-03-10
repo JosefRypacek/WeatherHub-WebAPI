@@ -1266,16 +1266,16 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "95363dbabd606e404b6c75095669993bf7ddae4b"
+                "reference": "f138bcc0cdaf6a6aba99ecab20d235b394f46eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/95363dbabd606e404b6c75095669993bf7ddae4b",
-                "reference": "95363dbabd606e404b6c75095669993bf7ddae4b",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/f138bcc0cdaf6a6aba99ecab20d235b394f46eba",
+                "reference": "f138bcc0cdaf6a6aba99ecab20d235b394f46eba",
                 "shasum": ""
             },
             "require": {
@@ -1322,7 +1322,7 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2016-01-03 15:35:16"
+            "time": "2016-02-13 09:23:44"
         },
         {
             "name": "tracy/tracy",
