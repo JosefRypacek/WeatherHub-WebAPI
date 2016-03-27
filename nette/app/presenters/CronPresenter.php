@@ -4,13 +4,15 @@ namespace App\Presenters;
 
 use Nette\Utils\Strings;
 
+
 /**
  * Cron every 5 or 10 minutes
  */
-class CronPresenter extends BasePresenter {
+class CronPresenter extends BasePresenter
+{
 
-	//TODO: Handle timezone in query?
-	public function actionDefault() {
+	public function actionDefault()
+	{
 
 		// Select devices and last stored measurement (ts + device_id) for each user
 		foreach ($this->database->table('user') as $user) {
@@ -51,7 +53,7 @@ class CronPresenter extends BasePresenter {
 				echo 'failed';
 				$this->terminate();
 			}
-			
+
 			// Convert data from json to array
 			$data = json_decode($json);
 			unset($json);
@@ -79,7 +81,7 @@ class CronPresenter extends BasePresenter {
 			foreach ($data->result->devices as $device) {
 				// auto update of name stored in DB
 				$deviceDb = $devicesDb->get($device->deviceid);
-				if($device->name != $deviceDb->name){
+				if ($device->name != $deviceDb->name) {
 					$deviceDb->update(['name' => $device->name]);
 				}
 				// Store measurements
@@ -108,7 +110,8 @@ class CronPresenter extends BasePresenter {
 		$this->terminate();
 	}
 
-	private function getQuery($deviceids, $measurementfroms, $phoneInfo) {
+	private function getQuery($deviceids, $measurementfroms, $phoneInfo)
+	{
 		$paramsArr = array(
 			'devicetoken' => $phoneInfo['devicetoken'],
 			'vendorid' => $phoneInfo['vendorid'],
@@ -118,7 +121,7 @@ class CronPresenter extends BasePresenter {
 			'executable' => 'eu.mobile_alerts.weatherhub',
 			'bundle' => 'eu.mobile_alerts.weatherhub',
 			'lang' => 'cs',
-			'timezoneoffset' => '60', // 60 in winter time... what about summer time?
+			'timezoneoffset' => '60', // 60 in winter time... 120 in summer time...  But DON'T CARE! We just need unix time.
 			'timeampm' => 'false',
 			'usecelsius' => 'true',
 			'usemm' => 'true',
