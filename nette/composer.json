@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": ">=5.3.7",
+        "php": ">=5.4.0",
         "nette/nette": "~2.3.0",
         "radekdostal/nette-datetimepicker": "^2.2",
         "o5/grido": "dev-master"
