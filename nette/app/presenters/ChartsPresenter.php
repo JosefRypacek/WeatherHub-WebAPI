@@ -78,7 +78,23 @@ class ChartsPresenter extends BasePresenter
 			$this->to->setTimestamp($to);
 		}
 
+		$diff = $this->from->diff($this->to);
+		$diffDays = $diff->format('%a');
+		if ($diffDays > 7) {
+			$eachNth = 2;
+		} else if ($diffDays > 4 * 7) {
+			$eachNth = 4;
+		} else if ($diffDays > 3 * 4 * 7) {
+			$eachNth = 8;
+		} else if ($diffDays > 6 * 4 * 7) {
+			$eachNth = 32;
+		} else {
+			$eachNth = 1;
+		}
+
 		// Send data to template
+		$this->template->eachNth = $eachNth;
+		$this->template->db = $this->database; // This is not best solution, but... Easy :)
 		$this->template->devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 		$this->template->from = $this->from->getTimestamp();
 		$this->template->to = $this->to->getTimestamp();
@@ -115,7 +131,21 @@ class ChartsPresenter extends BasePresenter
 		foreach ($devices as $device) {
 			$datay1 = array();
 			$datax1 = array();
-			foreach ($device->related('measurement')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp())) as $value) {
+			// nette related is memory killer! -> using pure query is 5x better :)
+			//$related = $device->related('measurement')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()));
+			// get each third record
+			$related = $this->database->query('
+				SELECT * 
+				FROM ( 
+					SELECT 
+						@row := @row +1 AS rownum, measurement.*
+					FROM (SELECT @row :=0) r, measurement
+					WHERE device_id = \'' . $device->id . '\'
+					ORDER BY ts
+					) ranked
+				WHERE rownum % 5 = 0
+			');
+			foreach ($related as $value) {
 				$datax1[] = $value->ts;
 				$datay1[] = $value->t1;
 			}
