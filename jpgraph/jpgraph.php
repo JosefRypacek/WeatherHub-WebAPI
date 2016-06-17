@@ -230,6 +230,8 @@ if (!defined('MBTTF_DIR')) {
 function CheckPHPVersion($aMinVersion) {
     list($majorC, $minorC, $editC) = preg_split('/[\/.-]/', PHP_VERSION);
     list($majorR, $minorR, $editR) = preg_split('/[\/.-]/', $aMinVersion);
+	
+	if($majorC == 7) return true;
 
     if ($majorC != $majorR) return false;
     if ($majorC < $majorR) return false;
