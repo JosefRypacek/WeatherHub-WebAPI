@@ -162,6 +162,7 @@ class ChartsPresenter extends BasePresenter
 		$graph->legend->SetFrameWeight(1); // border around legend
 
 		$graph->Stroke(); // generate graph
+		$this->terminate();
 	}
 
 }

@@ -1,5 +1,8 @@
 parameters:
 
+# nette < 2.4
+php:
+	date.timezone: Europe/Prague
 
 application:
 	errorPresenter: Error
