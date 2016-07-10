@@ -4,16 +4,17 @@ namespace App\Presenters;
 
 use Nette;
 
-/**
- * Base presenter for all application presenters.
- */
-abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
-	/** @var Nette\Database\Context */
-	protected $database;
+class BasePresenter extends BaseBasePresenter
+{
 
-	public function __construct(Nette\Database\Context $database) {
-		$this->database = $database;
+	protected function startup()
+	{
+		parent::startup();
+
+		if (!$this->user->isLoggedIn()) {
+			$this->redirect('Sign:in');
+		}
 	}
 
 }

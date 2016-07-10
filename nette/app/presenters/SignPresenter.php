@@ -3,32 +3,93 @@
 namespace App\Presenters;
 
 use Nette;
-use App\Forms\SignFormFactory;
 
 
-class SignPresenter extends BasePresenter
+class SignPresenter extends BaseBasePresenter
 {
-	/** @var SignFormFactory @inject */
-	public $factory;
 
-
-	/**
-	 * Sign-in form factory.
-	 * @return Nette\Application\UI\Form
-	 */
 	protected function createComponentSignInForm()
 	{
-		$form = $this->factory->create();
-		$form->onSuccess[] = function ($form) {
-			$form->getPresenter()->redirect('Charts:');
-		};
+		$form = new Nette\Application\UI\Form;
+		$form->addText('username', 'Uživatelské jméno:')
+				->setRequired('Prosím vyplňte své uživatelské jméno.');
+
+		$form->addPassword('password', 'Heslo:')
+				->setRequired('Prosím vyplňte své heslo.');
+
+		$form->addCheckbox('remember', 'Zůstat přihlášen');
+
+		$form->addSubmit('send', 'Přihlásit');
+
+		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 		return $form;
 	}
 
+	public function signInFormSucceeded($form)
+	{
+		$values = $form->values;
+
+		if ($values->remember) {
+			$this->user->setExpiration('14 days', FALSE);
+		} else {
+			$this->user->setExpiration('20 minutes', TRUE);
+		}
+
+		try {
+			$this->getUser()->login($values->username, $values->password);
+			$this->redirect('Homepage:');
+		} catch (Nette\Security\AuthenticationException $e) {
+			$form->addError('Nesprávné přihlašovací jméno nebo heslo.');
+			$form->addError($e);
+		}
+	}
+
+	public function actionIn()
+	{
+		if ($this->user->isLoggedIn()) {
+			$this->flashMessage('Už jsi přihlášen!');
+			$this->redirect('Homepage:');
+		}
+	}
 
 	public function actionOut()
 	{
-		$this->getUser()->logout();
+		$this->user->logout();
+		$this->flashMessage('Byl jsi odhlášen!');
+		$this->redirect('Homepage:');
+	}
+
+	protected function createComponentSignChangeForm()
+	{
+		$form = new Nette\Application\UI\Form;
+		$form->addText('username', 'Uživatelské jméno:')
+				->setDisabled()
+				->setDefaultValue($this->user->getIdentity()->name);
+
+		$form->addPassword('password', 'Heslo:')
+				->setRequired('Prosím vyplňte své heslo.');
+
+		$form->addSubmit('send', 'Změnit');
+
+		$form->onSuccess[] = [$this, 'signChangeFormSucceeded'];
+		return $form;
+	}
+
+	public function signChangeFormSucceeded($form)
+	{
+		$values = $form->values;
+
+		$this->context->createService('userManager')->setPassword($this->user->getId(), $values->password);
+		$this->flashMessage('Heslo bylo změněno');
+		$this->redirect('Homepage:');
+	}
+
+	public function actionChange()
+	{
+		if (!$this->user->isLoggedIn()) {
+			$this->flashMessage('Nejsi přihlášen!');
+			$this->redirect('Homepage:');
+		}
 	}
 
 }

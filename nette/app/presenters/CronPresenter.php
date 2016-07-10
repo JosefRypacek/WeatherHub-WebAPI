@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 /**
  * Cron every 5 or 10 minutes
  */
-class CronPresenter extends BasePresenter
+class CronPresenter extends BaseBasePresenter
 {
 
 	/** @var \Nette\DI\Container @inject */
