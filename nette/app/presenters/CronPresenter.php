@@ -11,6 +11,20 @@ use Nette\Utils\Strings;
 class CronPresenter extends BasePresenter
 {
 
+	/** @var \Nette\DI\Container @inject */
+	public $container;
+
+	protected function startup()
+	{
+		parent::startup();
+
+		$httpRequest = $this->container->getByType('Nette\Http\Request');
+		if ($httpRequest->getRemoteAddress() != $_SERVER['SERVER_ADDR']) {
+			echo 'Only local requests are allowed!';
+			$this->terminate();
+		}
+	}
+
 	public function actionDefault()
 	{
 
