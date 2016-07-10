@@ -37,7 +37,7 @@ class SignPresenter extends BaseBasePresenter
 
 		try {
 			$this->getUser()->login($values->username, $values->password);
-			$this->redirect('Homepage:');
+			$this->redirect('Charts:');
 		} catch (Nette\Security\AuthenticationException $e) {
 			$form->addError('Nesprávné přihlašovací jméno nebo heslo.');
 			$form->addError($e);
@@ -48,7 +48,7 @@ class SignPresenter extends BaseBasePresenter
 	{
 		if ($this->user->isLoggedIn()) {
 			$this->flashMessage('Už jsi přihlášen!');
-			$this->redirect('Homepage:');
+			$this->redirect('Charts:');
 		}
 	}
 
@@ -56,7 +56,7 @@ class SignPresenter extends BaseBasePresenter
 	{
 		$this->user->logout();
 		$this->flashMessage('Byl jsi odhlášen!');
-		$this->redirect('Homepage:');
+		$this->redirect('Charts:');
 	}
 
 	protected function createComponentSignChangeForm()
@@ -81,14 +81,14 @@ class SignPresenter extends BaseBasePresenter
 
 		$this->context->createService('userManager')->setPassword($this->user->getId(), $values->password);
 		$this->flashMessage('Heslo bylo změněno');
-		$this->redirect('Homepage:');
+		$this->redirect('Charts:');
 	}
 
 	public function actionChange()
 	{
 		if (!$this->user->isLoggedIn()) {
 			$this->flashMessage('Nejsi přihlášen!');
-			$this->redirect('Homepage:');
+			$this->redirect('Charts:');
 		}
 	}
 
