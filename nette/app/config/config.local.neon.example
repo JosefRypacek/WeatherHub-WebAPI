@@ -2,8 +2,6 @@
 
 parameters:
 
-tracy:
-	email: your@email.com
 
 database:
 	dsn: 'mysql:host=127.0.0.1;dbname=weatherhub'

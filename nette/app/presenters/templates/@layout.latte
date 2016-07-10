@@ -1,19 +1,22 @@
+{var appName = 'WeatherHub WebAPI'}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<!--<link rel="icon" href="{$basePath}/favicon.ico">-->
+		<meta name="robots" content="noindex, nofollow"> {* !!!!! Disable search robots !!!!! *}
 
-		<title>{ifset title}{include title|striptags} | {/ifset}WeatherHub WebAPI</title>
+		<title>{ifset title}{include title|stripHtml} | {/ifset}{$appName}</title>
 
-		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-		<!-- Latest compiled and minified CSS -->
+		{* jQuery UI & Bootstrap styles *}
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" >
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-		<link rel="stylesheet" href="{$basePath}/css/style.css">
+		{* nette styles *}
+		<link rel="stylesheet" href="{$basePath}/w/css/style.css">
 
 		<style>
 			body {
@@ -29,17 +32,10 @@
 			{
 				border: 1px solid #C0C0C0;
 				padding: 2pt;
-				background: transparent url({$basePath.'/images/calendar.png'}) no-repeat right;
+				background: transparent url({$basePath.'/w/images/calendar.png'}) no-repeat right;
 			}
 		</style>
 		{block head}{/block}
-
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
 	</head>
 
 	<body>
@@ -54,33 +50,25 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" n:href="Charts:">WeatherHub WebAPI</a>
+						<a n:href="Charts:" class="navbar-brand">{$appName}</a>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
-												<ul class="nav navbar-nav">
-													<li n:class="$presenter->isLinkCurrent('Charts:') ? active"><a n:href="Charts:">Grafy</a></li>
-													<li n:class="$presenter->isLinkCurrent('Charts:get1Y') ? active"><a n:href="Charts:get1Y">Roční graf</a></li>
-													<li n:class="$presenter->isLinkCurrent('Settings:')? active"><a n:href="Settings:">Nastavení</a></li>
-													<!--<li><a href="#">Contact</a></li>
-													<li class="dropdown">
-														<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-														<ul class="dropdown-menu">
-															<li><a href="#">Action</a></li>
-															<li><a href="#">Another action</a></li>
-															<li><a href="#">Something else here</a></li>
-															<li role="separator" class="divider"></li>
-															<li class="dropdown-header">Nav header</li>
-															<li><a href="#">Separated link</a></li>
-															<li><a href="#">One more separated link</a></li>
-														</ul>
-													</li>-->
-												</ul>
+						<ul class="nav navbar-nav">
+							<li n:class="$presenter->isLinkCurrent('Charts:') ? active"><a n:href="Charts:">Grafy</a></li>
+							<li n:class="$presenter->isLinkCurrent('Charts:get1Y') ? active"><a n:href="Charts:get1Y">Roční graf</a></li>
+							<li n:class="$presenter->isLinkCurrent('Settings:')? active"><a n:href="Settings:">Nastavení</a></li>
+							<!--<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li role="separator" class="divider"></li>
+								<li class="dropdown-header">Nav header</li>
+								<li><a href="#">Separated link</a></li>
+							</ul>
+						</li>-->
+						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							{if $user->isLoggedIn()}
-								<li><a n:href="Sign:out">Odhlásit</a></li>
-								{else}
-								<li><a n:href="Sign:in">Přihlásit</a></li>
-								{/if}
+							<li n:if="$user->isLoggedIn()"><a n:href="Sign:out">Odhlásit</a></li>
+							<li n:if="!$user->isLoggedIn()"><a n:href="Sign:in">Přihlásit</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
 				</div><!--/.container-fluid -->
@@ -88,19 +76,18 @@
 
 			<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-			<!-- Main component for a primary marketing message or call to action -->
-			<!--<div class="jumbotron"></div>-->
 			{include content}
 		</div> <!-- /container -->
 
 		{block scripts}
-		<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-		<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-		<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-		<script src="{$basePath}/js/main.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
+		{* jQuery, jQuery UI & Bootstrap scripts *}
+		{* Bootstrap 3.3.6 needs jQuery < 3 *}
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
+		{* nette scripts *}
+		<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+		<script src="{$basePath}/w/js/main.js"></script>
 		{/block}
 	</body>
 </html>
