@@ -4,8 +4,8 @@ parameters:
 
 
 database:
-	dsn: 'mysql:host=127.0.0.1;dbname=weatherhub'
-	user: XXXXX
+	dsn: 'mysql:host=127.0.0.1;dbname=app_weatherhub'
+	user: app_weatherhub
 	password: XXXXX
 	options:
 		lazy: yes
