@@ -16,7 +16,7 @@ class RouterFactory
 	public static function createRouter()
 	{
 		$router = new RouteList;
-		$router[] = new Route('<presenter>/<action>[/<id>]', 'Charts:default', Route::SECURED);
+		$router[] = new Route('<presenter>/<action>[/<id>]', 'Charts:default');
 		return $router;
 	}
 
