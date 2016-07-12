@@ -14,208 +14,198 @@
 
 {block scripts}
 {include parent}
-
-		<script type="text/javascript">
-			$(document).ready(function ()
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$('input.datepicker').datepicker(
 			{
-				$('input.datepicker').datepicker(
-						{
-							firstDay: 1,
-							changeMonth: true,
-							changeYear: true,
-							//dateFormat: 'mm/dd/yy',
-							dateFormat: 'dd.mm.yy',
-							yearRange: '2016:2026'
-						});
+				firstDay: 1,
+				changeMonth: true,
+				changeYear: true,
+				//dateFormat: 'mm/dd/yy',
+				dateFormat: 'dd.mm.yy',
+				yearRange: '2016:2026'
 			});
-			$.datepicker.regional['cs'] = {
-				                closeText: 'Cerrar',
-				                prevText: 'Předchozí',
-				                nextText: 'Další',
-				                currentText: 'Hoy',
-				                monthNames: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-				                monthNamesShort: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-//				                monthNamesShort: ['Le', 'Ún', 'Bř', 'Du', 'Kv', 'Čn', 'Čc', 'Sr', 'Zá', 'Ří', 'Li', 'Pr'],
-				                dayNames: ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'],
-				                dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So', ],
-				                dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
-				                weekHeader: 'Sm',
-				                dateFormat: 'dd.mm.yy',
-				                firstDay: 1,
-				                isRTL: false,
-				                showMonthAfterYear: false,
-				                yearSuffix: ''};
+	});
+	$.datepicker.regional['cs'] = {
+                closeText: 'Cerrar',
+                prevText: 'Předchozí',
+                nextText: 'Další',
+                currentText: 'Hoy',
+                monthNames: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+                monthNamesShort: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+//              monthNamesShort: ['Le', 'Ún', 'Bř', 'Du', 'Kv', 'Čn', 'Čc', 'Sr', 'Zá', 'Ří', 'Li', 'Pr'],
+                dayNames: ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'],
+                dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So', ],
+                dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd.mm.yy',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''};
  
-			$.datepicker.setDefaults($.datepicker.regional['cs']);
+	$.datepicker.setDefaults($.datepicker.regional['cs']);
+</script>
 
-		</script>
-		
-		
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" n:syntax="double">
 	google.charts.load('current', {'packages': ['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
-	function drawChart() {
-	var formatter_date = new google.visualization.DateFormat({pattern: "HH:mm - d. M. yyyy"});
-	var formatter_temp = new google.visualization.NumberFormat({fractionDigits: 1, suffix: '°C'});
-	var formatter_hum = new google.visualization.NumberFormat({fractionDigits: 0, suffix: '%'});
-	// For each device generate DataTable & graph
-	{{foreach $devices as $key => $device}}
-	var data = new google.visualization.DataTable();
-	data.addColumn('date', 'Timestamp');
-	data.addColumn('number', 'Teplota');
-		{{if $device->type == 3}}
-	data.addColumn('number', 'Vlhkost');
-		{{/if}}
+	var data = {};
+	function drawChart(redraw) {		
+		var formatter_date = new google.visualization.DateFormat({pattern: "HH:mm - d. M. yyyy"});
+		var formatter_temp = new google.visualization.NumberFormat({fractionDigits: 1, suffix: '°C'});
+		var formatter_hum = new google.visualization.NumberFormat({fractionDigits: 0, suffix: '%'});
 
-	data.addRows([
-		{{*foreach $device->related('measurement')->where(array('ts >=' => $from, 'ts <=' => $to)) as $item*}}
-		{{foreach $db->query('
-			SELECT * 
-			FROM ( 
-				SELECT 
-					@row := @row +1 AS rownum, measurement.*
-				FROM (SELECT @row :=0) r, measurement
-				WHERE device_id = \''.$device->id.'\' AND
-				ts >= '.$from.' AND ts <= '.$to.'
-				ORDER BY ts
-				) ranked
-			WHERE rownum % '.$eachNth.' = 0
-		') as $item}}
-			{{if $device->type == 3}}
-	[new Date({{$item->ts}} * 1000), {{$item->t1}}, {{$item->h}}],
-			{{else}}
-	[new Date({{$item->ts}} * 1000), {{$item->t1}}],
-			{{/if}}
-		{{/foreach}}
-	]);
-	var options = {
-	title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
-			legend: {position: 'bottom'},
-		{{if $device->type == 3}}
-	series: {
-		0: {targetAxisIndex: 0,
-		{{if !empty($device->color)}}
-			color: {{$device->color}},
-		{{/if}}
-		},
-		1: {targetAxisIndex: 1, lineWidth: 1}
-	},
-	vAxes: {
-		0: {/*title: 'Teplota (°C)', */format:'#.# °C'},
-		1: {/*title: 'Vlhkost (%)' */ format:'# \'%\''}
-	},
-		{{else}}
-		
-	{{if !empty($device->color)}}
-	series: {
-		0: {color: {{$device->color}}}
-	},
-	{{/if}}
-		
-	vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
-		{{/if}}
-	};
-	formatter_date.format(data, 0);
-	formatter_temp.format(data, 1);
-		{{if $device->type == 3}}
-	formatter_hum.format(data, 2);
-		{{/if}}
-	var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key}}));
-	chart.draw(data, options);
-	{{/foreach}}
-
-	// -------------------------------------------------------------------------
-	// ALL in ONE graph
-	var data = new google.visualization.DataTable();
-	data.addColumn('date', 'Timestamp');
-	{{foreach $devices as $device}}
-	data.addColumn('number', {{$device->name}});
-	{{/foreach}}
-
-	tmpData = new Array();
-	{{var $max = count($devices)}}
-	{{var $current = 0}}
-	{{foreach $devices as $device}}
-		{{*foreach $device->related('measurement')->where(array('ts >=' => $from, 'ts <=' => $to)) as $item*}}
-		{{foreach $db->query('
-			SELECT * 
-			FROM ( 
-				SELECT 
-					@row := @row +1 AS rownum, measurement.*
-				FROM (SELECT @row :=0) r, measurement
-				WHERE device_id = \''.$device->id.'\' AND
-				ts >= '.$from.' AND ts <= '.$to.'
-				ORDER BY ts
-				) ranked
-			WHERE rownum % '.$eachNth.' = 0
-		') as $item}}
-	oneRow = new Array();
-	oneRow[0] = new Date({{$item->ts}} * 1000);
-			{{for $i = 0; $i < $max; $i++}}
-				{{if $i == $current}}
-	oneRow[{{$i+1}}] = {{$item->t1}};
+		// For each device generate DataTable & graph
+		{{foreach $devices as $key => $device}}
+		if (redraw !== true) {
+			data[{{$key}}] = new google.visualization.arrayToDataTable([
+				['Timestamp','Teplota'{{if $device->type == 3}},'Vlhkost'{{/if}}],
+				{{*foreach $device->related('measurement')->where(array('ts >=' => $from, 'ts <=' => $to)) as $item*}}
+				{{foreach $db->query('
+					SELECT * 
+					FROM ( 
+						SELECT 
+							@row := @row +1 AS rownum, measurement.*
+						FROM (SELECT @row :=0) r, measurement
+						WHERE device_id = \''.$device->id.'\' AND
+						ts >= '.$from.' AND ts <= '.$to.'
+						ORDER BY ts
+						) ranked
+					WHERE rownum % '.$eachNth.' = 0
+				') as $item}}
+				{{if $device->type == 3}}
+					[new Date({{$item->ts}} * 1000), {{$item->t1}}, {{$item->h}}],
 				{{else}}
-	oneRow[{{$i+1}}] = null;
+					[new Date({{$item->ts}} * 1000), {{$item->t1}}],
 				{{/if}}
-			{{/for}}
-	tmpData.push(oneRow);
-		{{/foreach}}
-		{{var $current = $current +1}}
-	{{/foreach}}
-
-	data.addRows(tmpData);
-	var options = {
-		title: 'ALL in ONE',
-		legend: {position: 'bottom'},
-		vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
-		series: {
-	{{var $current = 0}}
-	{{foreach $devices as $device}}
-	{{if !empty($device->color)}}
-			{{$current}}: {color: {{$device->color}}},
-	{{/if}}
-	{{var $current = $current +1}}
-	{{/foreach}}			
+				{{/foreach}}
+			]);
+			formatter_date.format(data[{{$key}}], 0);
+			formatter_temp.format(data[{{$key}}], 1);
+			{{if $device->type == 3}}
+			formatter_hum.format(data[{{$key}}], 2);
+			{{/if}}
 		}
-	};
-	formatter_date.format(data, 0);
-	{{for $i = 0; $i < $max; $i++}}
-	formatter_temp.format(data, {{$i}} + 1);
-	{{/for}}
-	var chart = new google.visualization.LineChart(document.getElementById('curve_chart_all'));
-	chart.draw(data, options);
+		var options = {
+		title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
+		legend: {position: 'bottom'},
+		hAxis: {format: 'd. M. yyyy'},
+		{{if $device->type == 3}}
+		series: {
+			0: {targetAxisIndex: 0,
+			{{if !empty($device->color)}}
+				color: {{$device->color}},
+			{{/if}}
+			},
+			1: {targetAxisIndex: 1, lineWidth: 1}
+		},
+		vAxes: {
+			0: {/*title: 'Teplota (°C)', */format:'#.# °C'},
+			1: {/*title: 'Vlhkost (%)' */ format:'# \'%\''}
+		},
+		{{else}}
+
+			{{if !empty($device->color)}}
+		series: {
+			0: {color: {{$device->color}}}
+		},
+			{{/if}}
+
+		vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
+		{{/if}}
+		};
+
+		var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key}}));
+		chart.draw(data[{{$key}}], options);
+		{{/foreach}}
+
+		// -------------------------------------------------------------------------
+		// ALL in ONE graph
+		if (redraw !== true) {
+			data["allinone"] = new google.visualization.arrayToDataTable([
+			['Timestamp',{{foreach $devices as $device}}{{$device->name}},{{/foreach}}],
+			{{var $max = count($devices)}}
+			{{var $current = 0}}
+			{{foreach $devices as $device}}
+				{{*foreach $device->related('measurement')->where(array('ts >=' => $from, 'ts <=' => $to)) as $item*}}
+				{{foreach $db->query('
+					SELECT * 
+					FROM ( 
+						SELECT 
+							@row := @row +1 AS rownum, measurement.*
+						FROM (SELECT @row :=0) r, measurement
+						WHERE device_id = \''.$device->id.'\' AND
+						ts >= '.$from.' AND ts <= '.$to.'
+						ORDER BY ts
+						) ranked
+					WHERE rownum % '.$eachNth.' = 0
+				') as $item}}
+
+					[new Date({{$item->ts}} * 1000), 
+					{{for $i = 0; $i < $max; $i++}}
+						{{if $i == $current}}{{$item->t1}},{{else}}null,{{/if}}
+					{{/for}}
+					],
+				{{/foreach}}
+				{{var $current = $current +1}}
+			{{/foreach}}
+			]);
+
+			formatter_date.format(data["allinone"], 0);
+			{{for $i = 0; $i < $max; $i++}}
+			formatter_temp.format(data["allinone"], {{$i}} + 1);
+			{{/for}}
+		}
+		var options = {
+			title: 'ALL in ONE',
+			legend: {position: 'bottom'},
+			hAxis: {format: 'd. M. yyyy'},
+			vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
+			series: {
+		{{var $current = 0}}
+		{{foreach $devices as $device}}
+		{{if !empty($device->color)}}
+				{{$current}}: {color: {{$device->color}}},
+		{{/if}}
+		{{var $current = $current +1}}
+		{{/foreach}}			
+			}
+		};
+
+		var chart = new google.visualization.LineChart(document.getElementById('curve_chart_all'));
+		chart.draw(data["allinone"], options);
 	}
 
+
 	var wWidth = $(window).width(); // default width
-	var time = 0;
-	
-	$(window).resize(function(){
-		var date = new Date();
-		timeNew = date.getTime();
-		
-		if(timeNew - time < 500){ // 500ms 
-			// do not handle duplicated dialog & redraw
-			return;
+
+	// create trigger to resizeEnd event - wait 500ms before redraw
+	$(window).resize(function () {
+		if (this.resizeTO) {
+			clearTimeout(this.resizeTO);
 		}
-		
+		this.resizeTO = setTimeout(function () {
+			$(this).trigger('resizeEnd');
+		}, 500);
+	});
+	// redraw graph when window resize is completed  
+	$(window).on('resizeEnd', function () {
 		var oldWidth = wWidth;
 		wWidth = $(window).width();
-		
-		
-		if(oldWidth == wWidth){
-			// do NOT handle height change
-			return;
+		if (oldWidth === wWidth) {
+			return; // do NOT handle height change
+		}
+		if (google.visualization === undefined) {
+			return; // google lib not loaded yet
 		}
 		
 		var r = confirm("Změnila se velikost stránky. Chceš překreslit grafy?");
 		if (r == true) {
-			drawChart();
+			drawChart(true);
 		}
-		
-		// set time when user clicked OK / Cancel
-		var date = new Date();
-		time = date.getTime();
 	});
 </script>
 {/block}
