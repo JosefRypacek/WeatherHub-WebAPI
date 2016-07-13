@@ -62,7 +62,7 @@
 		{{foreach $devices as $key => $device}}
 		if (redraw !== true) {
 			data[{{$key}}] = new google.visualization.arrayToDataTable([
-				['Timestamp','Teplota'{{if $device->type == 3}},'Vlhkost'{{/if}}],
+				[{label: 'Timestamp', type: 'date'},'Teplota'{{if $device->type == 3}},'Vlhkost'{{/if}}],
 				{{*foreach $device->related('measurement')->where(array('ts >=' => $from, 'ts <=' => $to)) as $item*}}
 				{{foreach $db->query('
 					SELECT * 
@@ -126,7 +126,7 @@
 		// ALL in ONE graph
 		if (redraw !== true) {
 			data["allinone"] = new google.visualization.arrayToDataTable([
-			['Timestamp',{{foreach $devices as $device}}{{$device->name}},{{/foreach}}],
+			[{label: 'Timestamp', type: 'date'},{{foreach $devices as $device}}{{$device->name}},{{/foreach}}],
 			{{var $max = count($devices)}}
 			{{var $current = 0}}
 			{{foreach $devices as $device}}
