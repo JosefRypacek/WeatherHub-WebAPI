@@ -80,20 +80,26 @@ class ChartsPresenter extends BasePresenter
 
 		$diff = $this->from->diff($this->to);
 		$diffDays = $diff->format('%a');
-		if ($diffDays > 7) {
-			$eachNth = 2;
-		} else if ($diffDays > 4 * 7) {
-			$eachNth = 4;
+		if ($diffDays > 6 * 4 * 7) {
+//			$eachNth = 32;
+			$groupMinutes = 120;
 		} else if ($diffDays > 3 * 4 * 7) {
-			$eachNth = 8;
-		} else if ($diffDays > 6 * 4 * 7) {
-			$eachNth = 32;
+//			$eachNth = 8;
+			$groupMinutes = 60;
+		} else if ($diffDays > 4 * 7) {
+//			$eachNth = 4;
+			$groupMinutes = 40;
+		} elseif ($diffDays > 7) {
+//			$eachNth = 2;
+			$groupMinutes = 20;
 		} else {
-			$eachNth = 1;
+//			$eachNth = 1;
+			$groupMinutes = 5;
 		}
 
 		// Send data to template
-		$this->template->eachNth = $eachNth;
+//		$this->template->eachNth = $eachNth;
+		$this->template->groupMinutes = $groupMinutes;
 		$this->template->db = $this->database; // This is not best solution, but... Easy :)
 		$this->template->devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 		$this->template->from = $this->from->getTimestamp();
@@ -131,20 +137,9 @@ class ChartsPresenter extends BasePresenter
 		foreach ($devices as $device) {
 			$datay1 = array();
 			$datax1 = array();
-			// nette related is memory killer! -> using pure query is 5x better :)
-			//$related = $device->related('measurement')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()));
-			// get each third record
-			$related = $this->database->query('
-				SELECT * 
-				FROM ( 
-					SELECT 
-						@row := @row +1 AS rownum, measurement.*
-					FROM (SELECT @row :=0) r, measurement
-					WHERE device_id = \'' . $device->id . '\'
-					ORDER BY ts
-					) ranked
-				WHERE rownum % 5 = 0
-			');
+			// nette related is (or may be) memory killer!
+			// can using pure query - is 5x better (have 5 devices - is there any corelation?)
+			$related = $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()))->group('CONCAT(device_id, \'_\', FLOOR(ts/(1800)))');
 			foreach ($related as $value) {
 				$datax1[] = $value->ts;
 				$datay1[] = $value->t1;
@@ -160,7 +155,6 @@ class ChartsPresenter extends BasePresenter
 
 
 		$graph->legend->SetFrameWeight(1); // border around legend
-
 		$graph->Stroke(); // generate graph
 		$this->terminate();
 	}

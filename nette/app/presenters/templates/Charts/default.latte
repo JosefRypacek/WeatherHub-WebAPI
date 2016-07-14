@@ -1,6 +1,6 @@
 {block content}
 <div class="jumbotron">
-	<div>Kvůli rychlosti vykreslování grafů za delší časové období se pro > 7 dní vykresluje každá druhá naměřená hodnota. >1m každá 4., >3m každá 8., >6m každá 32. U 'ročního grafu' každá pátá.</div>
+	<div>Kvůli rychlosti vykreslování grafů za delší časové období se pro > 7 hodnoty agregují a průměrují.</div>
 	<p>Aktualizace dat probíhá každých 5 minut. Vykreslení grafů může trvat delší dobu.</p>
 	{control dateForm}
 </div>
@@ -63,19 +63,7 @@
 		if (redraw !== true) {
 			data[{{$key}}] = new google.visualization.arrayToDataTable([
 				[{label: 'Timestamp', type: 'date'},'Teplota'{{if $device->type == 3}},'Vlhkost'{{/if}}],
-				{{*foreach $device->related('measurement')->where(array('ts >=' => $from, 'ts <=' => $to)) as $item*}}
-				{{foreach $db->query('
-					SELECT * 
-					FROM ( 
-						SELECT 
-							@row := @row +1 AS rownum, measurement.*
-						FROM (SELECT @row :=0) r, measurement
-						WHERE device_id = \''.$device->id.'\' AND
-						ts >= '.$from.' AND ts <= '.$to.'
-						ORDER BY ts
-						) ranked
-					WHERE rownum % '.$eachNth.' = 0
-				') as $item}}
+				{{foreach $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 				{{if $device->type == 3}}
 					[new Date({{$item->ts}} * 1000), {{$item->t1}}, {{$item->h}}],
 				{{else}}
@@ -130,21 +118,8 @@
 			{{var $max = count($devices)}}
 			{{var $current = 0}}
 			{{foreach $devices as $device}}
-				{{*foreach $device->related('measurement')->where(array('ts >=' => $from, 'ts <=' => $to)) as $item*}}
-				{{foreach $db->query('
-					SELECT * 
-					FROM ( 
-						SELECT 
-							@row := @row +1 AS rownum, measurement.*
-						FROM (SELECT @row :=0) r, measurement
-						WHERE device_id = \''.$device->id.'\' AND
-						ts >= '.$from.' AND ts <= '.$to.'
-						ORDER BY ts
-						) ranked
-					WHERE rownum % '.$eachNth.' = 0
-				') as $item}}
-
-					[new Date({{$item->ts}} * 1000), 
+				{{foreach $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+					[new Date({{$item->ts * 1000}}), 
 					{{for $i = 0; $i < $max; $i++}}
 						{{if $i == $current}}{{$item->t1}},{{else}}null,{{/if}}
 					{{/for}}
