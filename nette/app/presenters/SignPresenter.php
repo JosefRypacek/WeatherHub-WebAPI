@@ -71,6 +71,7 @@ class SignPresenter extends BaseBasePresenter
 		$form->addSubmit('send', 'Změnit');
 
 		$form->onSuccess[] = [$this, 'signChangeFormSucceeded'];
+		$form->addProtection();
 		return $form;
 	}
 
