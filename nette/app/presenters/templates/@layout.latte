@@ -12,9 +12,9 @@
 		<title>{ifset title}{include title} | {/ifset}{$appName}</title> {*title|stripHtml for nete 2.4*}
 
 		{* jQuery UI & Bootstrap styles *}
-		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" >
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<link rel="stylesheet" href="{$basePath}/bower_components/jquery-ui/themes/smoothness/jquery-ui.css" >
+		<link rel="stylesheet" href="{$basePath}/bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{$basePath}/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 		{* nette styles *}
 		<link rel="stylesheet" href="{$basePath}/w/css/style.css">
 
@@ -82,13 +82,12 @@
 
 		{block scripts}
 		{* jQuery, jQuery UI & Bootstrap scripts *}
-		{* Bootstrap 3.3.6 needs jQuery < 3 *}
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="{$basePath}/bower_components/jquery2/jquery.min.js"></script>{* grido editable NOT working with jquery3 *}
+		<script src="{$basePath}/bower_components/jquery-ui/jquery-ui.min.js"></script>
+		<script src="{$basePath}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		{* nette scripts *}
-		<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-		<script src="{$basePath}/w/js/main.js"></script>
+		<script src="{$basePath}/bower_components/nette-forms/src/assets/netteForms.js"></script>
+		<!--<script src="{$basePath}/w/js/main.js"></script>-->
 		{/block}
 	</body>
 </html>

@@ -1,5 +1,5 @@
 {block content}
-<link rel="stylesheet" href="https://cdn.rawgit.com/o5/grido/1a4f1e5/client-side/css/grido.css">
+<link rel="stylesheet" href="{$basePath}/bower_components/grido/client-side/css/grido.css">
 <style>
 	.grido th.column {
 		text-align: left;
@@ -19,24 +19,9 @@
 
 {block scripts}
 {include parent}
-		
-        <script src="https://cdn.rawgit.com/moment/moment/2.9.0/moment.js"></script>
-        <script src="https://cdn.rawgit.com/jquery/jquery/1.11.2/dist/jquery.min.js"></script>
-        <script src="https://cdn.rawgit.com/twbs/bootstrap/v3.1.1/dist/js/bootstrap.min.js"></script>
-        <!--<script src="https://cdn.rawgit.com/dangrossman/bootstrap-daterangepicker/v1.3.17/daterangepicker.js"></script>-->
-        <!--<script src="https://cdn.rawgit.com/nette/forms/v2.2.4/src/assets/netteForms.js"></script>-->
-
-        <!--<script src="https://cdn.rawgit.com/browserstate/history.js/1.8.0/scripts/bundled/html4+html5/jquery.history.js"></script>-->
-        <!--<script src="https://cdn.rawgit.com/twitter/typeahead.js/v0.10.5/dist/typeahead.bundle.min.js"></script>-->
-        <script src="https://cdn.rawgit.com/vojtech-dobes/nette.ajax.js/2.0.0/nette.ajax.js"></script>
-        <!--<script src="https://cdn.rawgit.com/rstacruz/nprogress/v0.1.6/nprogress.js"></script>-->
-        <!--<script src="http://grido.bugyik.cz/example/js/nette.nprogress.js"></script>-->
-
-        <script src="https://cdn.rawgit.com/o5/grido/1a4f1e5/client-side/js/grido.js"></script>
-        <!--<script src="https://cdn.rawgit.com/o5/grido/1a4f1e5/client-side/js/plugins/grido.datepicker.js"></script>-->
-        <!--<script src="https://cdn.rawgit.com/o5/grido/1a4f1e5/client-side/js/plugins/grido.typeahead.js"></script>-->
-        <!--<script src="https://cdn.rawgit.com/o5/grido/1a4f1e5/client-side/js/plugins/grido.history.js"></script>-->
-        <script src="https://cdn.rawgit.com/o5/grido/1a4f1e5/client-side/js/plugins/grido.nette.ajax.js"></script>
+        <script src="{$basePath}/bower_components/nette.ajax.js/nette.ajax.js"></script>
+        <script src="{$basePath}/bower_components/grido/client-side/js/grido.js"></script>
+        <script src="{$basePath}/bower_components/grido/client-side/js/plugins/grido.nette.ajax.js"></script>
 
 		<script>
 			$(function(){
