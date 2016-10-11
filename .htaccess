@@ -14,7 +14,7 @@
 	# redirect to non-www domain
 	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 		# there has to be subfolder
-	RewriteRule ^(.*)$ https://%1/replota/$1 [R=301,L]
+	RewriteRule ^(.*)$ https://%1/teplota/$1 [R=301,L]
 
 	# prevents files starting with dot to be viewed by browser
 	RewriteRule /\.|^\. - [F]
