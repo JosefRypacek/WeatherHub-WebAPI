@@ -10,6 +10,11 @@
 	RewriteEngine On
 	# RewriteBase /
 
+	# assume that HTTP is redirected to HTTPS by default!
+	# redirect to non-www domain
+	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+	RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
 	# prevents files starting with dot to be viewed by browser
 	RewriteRule /\.|^\. - [F]
 
