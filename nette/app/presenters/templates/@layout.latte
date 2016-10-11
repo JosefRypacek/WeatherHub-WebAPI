@@ -9,7 +9,7 @@
 		<!--<link rel="icon" href="{$basePath}/favicon.ico">-->
 		<meta name="robots" content="noindex, nofollow"> {* !!!!! Disable search robots !!!!! *}
 
-		<title>{ifset title}{include title} | {/ifset}{$appName}</title> {*title|stripHtml for nete 2.4*}
+		<title>{ifset title|stripHtml}{include title} | {/ifset}{$appName}</title>
 
 		{* jQuery UI & Bootstrap styles *}
 		<link rel="stylesheet" href="{$basePath}/bower_components/jquery-ui/themes/smoothness/jquery-ui.css" >
