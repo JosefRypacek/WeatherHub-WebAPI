@@ -1,5 +1,5 @@
 {block content}
-<link rel="stylesheet" href="{$basePath}/bower_components/grido/client-side/css/grido.css">
+<link rel="stylesheet" href="{$basePath}/bower_components/grido/assets/dist/css/grido.css">
 <style>
 	.grido th.column {
 		text-align: left;
@@ -20,8 +20,8 @@
 {block scripts}
 {include parent}
         <script src="{$basePath}/bower_components/nette.ajax.js/nette.ajax.js"></script>
-        <script src="{$basePath}/bower_components/grido/client-side/js/grido.js"></script>
-        <script src="{$basePath}/bower_components/grido/client-side/js/plugins/grido.nette.ajax.js"></script>
+        <script src="{$basePath}/bower_components/grido/assets/js/grido.js"></script> {* just basic grido without many plugins (not /dist folder *}
+        <script src="{$basePath}/bower_components/grido/assets/js/plugins/grido.nette.ajax.js"></script>
 
 		<script>
 			$(function(){

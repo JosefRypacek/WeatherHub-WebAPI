@@ -1,4 +1,7 @@
 {
+  "#1": "use specific version numbers due to auto deploy on production server!!!",
+  "#2": "check new version by ** $ bower list ***",
+  "#3": "",
   "name": "app_weatherhub",
   "authors": [
     "jrypacek <j.rypacek@gmail.com>"
@@ -16,15 +19,15 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "jquery-ui": "^1.12.1",
-    "jquery": "^3.0",
-    "jquery-migrate": "^3.0",
-    "nette.ajax.js": "^2.2",
-    "grido": "^2.1",
-    "nette-forms": "^2.4"
+    "bootstrap": "3.3.7",
+    "jquery-ui": "1.12.1",
+    "jquery": "3.1.1",
+    "jquery-migrate": "3.0.0",
+    "nette.ajax.js": "2.2.0",
+    "grido": "#611ae6b",
+    "nette-forms": "2.4.2"
   },
   "resolutions": {
-    "nette-forms": "^2.4"
+    "nette-forms": "2.4.2"
   }
 }
