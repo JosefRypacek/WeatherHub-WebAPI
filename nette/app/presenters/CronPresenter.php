@@ -59,6 +59,7 @@ class CronPresenter extends BaseBasePresenter
 				CURLOPT_ENCODING => 'gzip',
 				CURLOPT_POSTFIELDS => $this->getQuery($deviceids, $measurementfroms, $phoneInfo),
 				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_CONNECTTIMEOUT => 15,
 			));
 			$json = curl_exec($curl);
 			curl_close($curl);
