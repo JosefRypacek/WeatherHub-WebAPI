@@ -59,10 +59,13 @@ class CronPresenter extends BaseBasePresenter
 				CURLOPT_ENCODING => 'gzip',
 				CURLOPT_POSTFIELDS => $this->getQuery($deviceids, $measurementfroms, $phoneInfo),
 				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_CONNECTTIMEOUT => 15,
+				CURLOPT_CONNECTTIMEOUT => 10,
+				CURLOPT_TIMEOUT => 45,
 			));
 			$json = curl_exec($curl);
 			curl_close($curl);
+			
+			// should test if request timeouted? eg. curl_errno()
 
 			if ($json === FALSE) {
 				echo 'failed';
