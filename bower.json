@@ -25,7 +25,7 @@
     "jquery-migrate": "3.0.0",
     "nette.ajax.js": "2.2.0",
     "grido": "#611ae6b",
-    "nette-forms": "2.4.2"
+    "nette-forms": "2.4.3"
   },
   "resolutions": {
     "nette-forms": "2.4.2"
