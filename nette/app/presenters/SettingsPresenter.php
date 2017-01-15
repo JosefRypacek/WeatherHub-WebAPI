@@ -25,7 +25,8 @@ class SettingsPresenter extends BasePresenter
 
 		$grid->setPrimaryKey('int_id_grido');
 
-		$grid->addColumnText('name', 'Název');
+		$grid->addColumnText('name', 'Název')
+				->setEditable();
 		$grid->addColumnNumber('order', 'Pořadí')
 				->setEditable();
 		$grid->addColumnText('color', 'Barva')

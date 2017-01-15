@@ -99,8 +99,11 @@ class CronPresenter extends BaseBasePresenter
 			foreach ($data->result->devices as $device) {
 				// auto update of name stored in DB
 				$deviceDb = $devicesDb->get($device->deviceid);
+				
+				// don't update name - they are uniquie for each moible app :(
+				// don't have curret mobile app paired with this webapi
 				if ($device->name != $deviceDb->name) {
-					$deviceDb->update(['name' => $device->name]);
+					//$deviceDb->update(['name' => $device->name]);
 				}
 				// Store measurements
 				foreach ($device->measurements as $measurement) {
