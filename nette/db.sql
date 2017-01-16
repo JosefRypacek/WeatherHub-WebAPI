@@ -1,6 +1,4 @@
--- Adminer 4.2.0 MySQL dump
-
-SET NAMES utf8mb4;
+SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
@@ -8,11 +6,14 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 DROP TABLE IF EXISTS `device`;
 CREATE TABLE `device` (
   `id` varchar(12) NOT NULL,
+  `int_id_grido` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `type` tinyint(4) NOT NULL,
   `name` varchar(64) NOT NULL,
   `order` tinyint(3) unsigned NOT NULL,
+  `color` varchar(7) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `int_id_grido` (`int_id_grido`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `device_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -35,6 +36,7 @@ CREATE TABLE `user` (
   `username` varchar(64) NOT NULL,
   `password` varchar(60) NOT NULL,
   `role` varchar(32) NOT NULL,
+  `updatenames` tinyint(1) NOT NULL DEFAULT '1',
   `devicetoken` varchar(140) NOT NULL,
   `vendorid` varchar(36) NOT NULL,
   `phoneid` varchar(12) NOT NULL,
