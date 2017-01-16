@@ -11,24 +11,25 @@
 
 <div class="jumbotron">
 	<p>Editace: CTRL + 2x kliknout do políčka s hodnotou, změnit, ENTER<br>
-		Barvy: zadávat pomocí kódu (#123456) - barvy <a href="http://www.jakpsatweb.cz/archiv/barvy-pojmenovane.html">ZDE</a>
-		{* bohuzel mame v DB jiny mobil nez se pouziva ve skutecnosti - nazvy se nepropaguji *}
-		<!--<br>Název je nutné změnit v originální aplikaci - zde se změní automaticky--></p>
+		Barvy: zadávat pomocí kódu (#123456) - barvy <a href="http://www.jakpsatweb.cz/archiv/barvy-pojmenovane.html">ZDE</a><br>
+		Názvy je možné synchronizovat z originální aplikace - je ale třeba správně nastavit DEVICETOKEN / VENDORID / PHONEID</p>
 </div>
-{control grid}
+{control deviceGrid}
+<br><br>
+{control userGrid}
 
 {/block}
 
 {block scripts}
 {include parent}
-        <script src="{$basePath}/bower_components/nette.ajax.js/nette.ajax.js"></script>
-        <script src="{$basePath}/bower_components/grido/assets/js/grido.js"></script> {* just basic grido without many plugins (not /dist folder *}
-        <script src="{$basePath}/bower_components/grido/assets/js/plugins/grido.nette.ajax.js"></script>
+<script src="{$basePath}/bower_components/nette.ajax.js/nette.ajax.js"></script>
+<script src="{$basePath}/bower_components/grido/assets/js/grido.js"></script> {* just basic grido without many plugins (not /dist folder *}
+<script src="{$basePath}/bower_components/grido/assets/js/plugins/grido.nette.ajax.js"></script>
 
-		<script>
-			$(function(){
-				//init nette ajax
-				$.nette.init();
-			});
-		</script>
+<script>
+	$(function () {
+		//init nette ajax
+		$.nette.init();
+	});
+</script>
 {/block}

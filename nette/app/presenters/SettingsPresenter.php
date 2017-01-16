@@ -17,7 +17,7 @@ class SettingsPresenter extends BasePresenter
 		}
 	}
 
-	protected function createComponentGrid($name)
+	protected function createComponentDeviceGrid($name)
 	{
 		$grid = new \Grido\Grid($this, $name);
 		$grid->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
@@ -30,6 +30,35 @@ class SettingsPresenter extends BasePresenter
 		$grid->addColumnNumber('order', 'Pořadí')
 				->setEditable();
 		$grid->addColumnText('color', 'Barva')
+				->setEditable();
+	}
+
+	protected function createComponentUserGrid($name)
+	{
+		$grid = new \Grido\Grid($this, $name);
+		$grid->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
+		$grid->setModel($this->database->table('user')->where(['id' => $this->user->getId()]));
+
+
+		$grid->addColumnNumber('updatenames', 'Synchronizovat jména?')
+				->setReplacement([0 => 'NE', 1 => 'ANO'])
+				->setEditable();
+
+//				Tried to setup constraints - check is working, update is NOT working :(
+//
+//				->setEditableCallback(function($id, $new, $old, $column) {
+//					return (intval($new) === 0 || intval($new) === 1);
+//				})
+
+
+		$grid->addColumnText('devicetoken', 'devicetoken')
+				->setCustomRender(function($item) {
+					return \Nette\Utils\Strings::truncate($item->devicetoken, 30);
+				})
+				->setEditable();
+		$grid->addColumnNumber('vendorid', 'vendorid')
+				->setEditable();
+		$grid->addColumnText('phoneid', 'phoneid')
 				->setEditable();
 	}
 
