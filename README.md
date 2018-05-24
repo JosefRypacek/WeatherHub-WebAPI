@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # WeatherHub Web-API
 Web application used as a client for TFA WEATHERHUB SmartHome System meteostation and communicating with Mobile Alerts Cloud. App is written in PHP (Nette framework) and MySQL. It allows to view charts of measured values. This app can be easily customized to support more types of sensors.
 
@@ -33,3 +34,15 @@ Web application used as a client for TFA WEATHERHUB SmartHome System meteostatio
   - not implemented into this app
 - there is some service http://conradconnect.de (https://mobile-alerts.eu/de/conrad-connect/) with support of these devices
 - there is also http://wh-observer.de (but I'm not sure if it's compatible)
+=======
+# WeatherHub SmartHomeSystem
+
+- this "API" is build on "hacked" communication channel of this devices
+- this app is acting like official mobile application and stores data in our DB
+- there were no other way few years ago...
+
+http://www.mobile-alerts.eu
+- the have new REST API
+- there is some service conradconnect.de with support of this devices
+- there is also wh-observer.de (but I'm not sure if it's compatible)
+>>>>>>> 8a3b474 (README.md created online with Bitbucket)
