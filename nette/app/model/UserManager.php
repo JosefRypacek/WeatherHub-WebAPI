@@ -8,7 +8,7 @@ use Nette\Security\Passwords;
 /**
  * Users management.
  */
-class UserManager extends Nette\Object implements Nette\Security\IAuthenticator {
+class UserManager implements Nette\Security\IAuthenticator {
 
 	const
 			TABLE_NAME = 'user',

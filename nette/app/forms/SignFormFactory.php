@@ -7,7 +7,7 @@ use Nette\Application\UI\Form;
 use Nette\Security\User;
 
 
-class SignFormFactory extends Nette\Object
+class SignFormFactory
 {
 	/** @var FormFactory */
 	private $factory;

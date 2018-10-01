@@ -6,7 +6,7 @@ use Nette;
 use Tracy\ILogger;
 
 
-class ErrorPresenter extends Nette\Object implements Nette\Application\IPresenter
+class ErrorPresenter implements Nette\Application\IPresenter
 {
 	/** @var ILogger */
 	private $logger;

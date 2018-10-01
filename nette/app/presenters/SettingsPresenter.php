@@ -19,7 +19,9 @@ class SettingsPresenter extends BasePresenter
 
 	protected function createComponentDeviceGrid($name)
 	{
-		$grid = new \Grido\Grid($this, $name);
+		$grid = new \Grido\Grid();
+		$this->addComponent($grid, $name);
+		
 		$grid->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
 		$grid->setModel($this->database->table('device')->where(['user_id' => $this->user->getId()]));
 
@@ -35,7 +37,9 @@ class SettingsPresenter extends BasePresenter
 
 	protected function createComponentUserGrid($name)
 	{
-		$grid = new \Grido\Grid($this, $name);
+		$grid = new \Grido\Grid();
+		$this->addComponent($grid, $name);
+		
 		$grid->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
 		$grid->setModel($this->database->table('user')->where(['id' => $this->user->getId()]));
 
