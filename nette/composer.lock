@@ -373,16 +373,16 @@
         },
         {
             "name": "nette/database",
-            "version": "v2.4.6",
+            "version": "v2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/database.git",
-                "reference": "b094b7ae07daa7d4c188168f78b15eb2f4f27212"
+                "reference": "b7b1b990abdc612d45f5dd6fe24618329768f864"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/database/zipball/b094b7ae07daa7d4c188168f78b15eb2f4f27212",
-                "reference": "b094b7ae07daa7d4c188168f78b15eb2f4f27212",
+                "url": "https://api.github.com/repos/nette/database/zipball/b7b1b990abdc612d45f5dd6fe24618329768f864",
+                "reference": "b7b1b990abdc612d45f5dd6fe24618329768f864",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +441,7 @@
                 "queries",
                 "sqlite"
             ],
-            "time": "2018-06-01T15:50:27+00:00"
+            "time": "2018-10-16T12:52:07+00:00"
         },
         {
             "name": "nette/deprecated",
@@ -1443,12 +1443,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/o5/grido.git",
-                "reference": "254f363b415c66b78449db9c5f45d3256b3426b5"
+                "reference": "db5e868e1c577ddc9174a832d56561e07966f9df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/o5/grido/zipball/254f363b415c66b78449db9c5f45d3256b3426b5",
-                "reference": "254f363b415c66b78449db9c5f45d3256b3426b5",
+                "url": "https://api.github.com/repos/o5/grido/zipball/db5e868e1c577ddc9174a832d56561e07966f9df",
+                "reference": "db5e868e1c577ddc9174a832d56561e07966f9df",
                 "shasum": ""
             },
             "require": {
@@ -1462,7 +1462,7 @@
             },
             "require-dev": {
                 "dibi/dibi": "~3.0.1",
-                "kdyby/doctrine": "~3.1.2",
+                "kdyby/doctrine": "~3.3.0",
                 "mockery/mockery": "~0.9.3",
                 "nette/bootstrap": "~2.3",
                 "nette/database": "~2.2",
@@ -1497,7 +1497,7 @@
                 "table",
                 "tablegrid"
             ],
-            "time": "2017-02-04T10:33:19+00:00"
+            "time": "2018-10-18T06:08:50+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1589,7 +1589,7 @@
         },
         {
             "name": "symfony/inflector",
-            "version": "v4.1.5",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -1764,16 +1764,16 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v3.4.16",
+            "version": "v3.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "35e277fabd77d42b747d017dc31f4b7fab5158fc"
+                "reference": "a62b882330f24b43f4409e50a0692aa433947460"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/35e277fabd77d42b747d017dc31f4b7fab5158fc",
-                "reference": "35e277fabd77d42b747d017dc31f4b7fab5158fc",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/a62b882330f24b43f4409e50a0692aa433947460",
+                "reference": "a62b882330f24b43f4409e50a0692aa433947460",
                 "shasum": ""
             },
             "require": {
@@ -1828,7 +1828,7 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2018-09-08T13:15:14+00:00"
+            "time": "2018-10-02T12:28:39+00:00"
         },
         {
             "name": "tracy/tracy",

@@ -19,6 +19,4 @@ $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 
 $container = $configurator->createContainer();
 
-error_reporting(~E_USER_DEPRECATED); // Temporary bugfix for outdated grido
-
 return $container;
