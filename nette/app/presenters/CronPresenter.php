@@ -140,8 +140,8 @@ class CronPresenter extends BaseBasePresenter
 			'devicetoken' => $phoneInfo['devicetoken'],
 			'vendorid' => $phoneInfo['vendorid'],
 			'phoneid' => $phoneInfo['phoneid'],
-			'version' => '1.24',
-			'build' => '84',
+			'version' => '1.38',
+			'build' => '137',
 			'executable' => 'eu.mobile_alerts.weatherhub',
 			'bundle' => 'eu.mobile_alerts.weatherhub',
 			'lang' => 'cs',
@@ -162,7 +162,7 @@ class CronPresenter extends BaseBasePresenter
 		foreach ($paramsArr as $key => $value) {
 			if ($key == 'requesttoken') {
 				// Create hash
-				$md5 = md5(Strings::lower(Strings::replace(rtrim($query, '&') . 'asdfaldfjadflxgeteeiorut0ß8vfdft34503580', '~[-,\.]~', ''))); // remove from string: - , . and lowercase
+				$md5 = md5(Strings::lower(Strings::replace(rtrim($query, '&') . 'uvh2r1qmbqk8dcgv0hc31a6l8s5cnb0ii7oglpfj', '~[-,\.]~', ''))); // remove from string: - , . and lowercase
 				$query .= $key . '=' . $md5;
 			} else {
 				$query .= $key . '=' . $value;
