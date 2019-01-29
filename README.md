@@ -41,6 +41,19 @@ Web application used as a client for TFA WEATHERHUB SmartHome System meteostatio
 - this app is acting like official mobile application and stores data in our DB
 - there were no other way few years ago...
 
+## How to get working? (user)
+ - setup android app WeatherHub
+ - install Packet Capture with SSL certificate
+ - start capture, reload WeatherHub data, save captured data
+ - enter devicetoken, vendorid and phoneid (and device IDs) into this app
+
+## How to get working? (admin)
+ - download current app in .apk format
+ - use apktool do decompile
+ - find file (./smali/com/synertronixx/mobilealerts1/RMGlobalData.smali) using: fgrep -ri 'md5' .
+ - find salt and excluded charactes before calling getMD5EncryptedString
+ - modify app according to this information
+
 http://www.mobile-alerts.eu
 - the have new REST API
 - there is some service conradconnect.de with support of this devices
