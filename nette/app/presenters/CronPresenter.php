@@ -42,13 +42,16 @@ class CronPresenter extends BaseBasePresenter
 			// Make parameters for query
 			$deviceids = '';
 			$measurementfroms = '';
+			$measurementcounts = '';
 			foreach ($devicesDb as $device) {
 				$deviceids .= $device->id . ',';
 				$measurementfroms .= $device->related('measurement')->max('ts') + 1 . ','; // Works for empty table too
+				$measurementcounts .= '1000';
 			}
 
 			// Remove last comma from string
 			$measurementfroms = rtrim($measurementfroms, ',');
+			$measurementcounts = rtrim($measurementcounts, ',');
 
 			// GET data from server - the same query as android app
 			$curl = curl_init("www.data199.com:8080/api/v1/dashboard");
@@ -57,7 +60,7 @@ class CronPresenter extends BaseBasePresenter
 				CURLOPT_HTTPHEADER => array('Content-Type' => 'application/x-www-form-urlencoded', 'charset' => 'utf-8', 'Connection' => 'Keep-Alive'),
 				CURLOPT_USERAGENT => 'Dalvik/1.6.0 (Linux; U; Android 4.3; Galaxy Nexus Build/JWR66Y)', // Any user-agent, for example Nexus phone :)
 				CURLOPT_ENCODING => 'gzip',
-				CURLOPT_POSTFIELDS => $this->getQuery($deviceids, $measurementfroms, $phoneInfo),
+				CURLOPT_POSTFIELDS => $this->getQuery($deviceids, $measurementfroms, $measurementcounts, $phoneInfo),
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_CONNECTTIMEOUT => 10,
 				CURLOPT_TIMEOUT => 45,
@@ -131,7 +134,7 @@ class CronPresenter extends BaseBasePresenter
 		$this->terminate();
 	}
 
-	private function getQuery($deviceids, $measurementfroms, $phoneInfo)
+	private function getQuery($deviceids, $measurementfroms, $measurementcounts, $phoneInfo)
 	{
 		$paramsArr = array(
 			'devicetoken' => $phoneInfo['devicetoken'],
@@ -152,7 +155,7 @@ class CronPresenter extends BaseBasePresenter
 			'requesttoken' => '--- automatically generated ---',
 			'deviceids' => $deviceids, // format: '123,123,123,'
 			'measurementfroms' => $measurementfroms, //format: ',,' // timestamp FROM (ts) for each device - without ',' at the end
-			'measurementcounts' => '1000,1000,1000,1000,1000', // number of values for each device - without ',' at the end
+			'measurementcounts' => $measurementcounts, // number of values for each device - without ',' at the end
 		);
 
 		$query = '';
