@@ -1,8 +1,8 @@
 {
     "require": {
-        "php": ">= 7.1",
-        "nette/nette": "^2.4",
-        "radekdostal/nette-datetimepicker": "2.5.0",
-        "o5/grido": "dev-master"
+	"php": ">= 7.3",
+	"nette/nette": "^2.4",
+	"o5/grido": "dev-master#dd868f578bf3a38b4de08dab3f57b49edb45be7a",
+	"radekdostal/nette-datetimepicker": "^2.5"
     }
 }
