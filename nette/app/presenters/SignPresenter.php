@@ -3,10 +3,23 @@
 namespace App\Presenters;
 
 use Nette;
+use \App\Model\UserManager;
 
 
 class SignPresenter extends BaseBasePresenter
 {
+	
+	/** @var UserManager */
+	private $userManager;
+
+	/**
+	 * @param UserManager $userManager
+	 */
+	public function __construct(UserManager $userManager)
+	{
+	    parent::__construct();
+	    $this->userManager = $userManager;
+	}
 
 	protected function createComponentSignInForm()
 	{
@@ -30,9 +43,9 @@ class SignPresenter extends BaseBasePresenter
 		$values = $form->values;
 
 		if ($values->remember) {
-			$this->user->setExpiration('14 days', FALSE);
+			$this->user->setExpiration('14 days');
 		} else {
-			$this->user->setExpiration('20 minutes', TRUE);
+			$this->user->setExpiration('20 minutes');
 		}
 
 		try {
@@ -63,7 +76,7 @@ class SignPresenter extends BaseBasePresenter
 		$form = new Nette\Application\UI\Form;
 		$form->addText('username', 'Uživatelské jméno:')
 				->setDisabled()
-				->setDefaultValue($this->user->getIdentity()->name);
+				->setDefaultValue($this->user->getIdentity()->username);
 
 		$form->addPassword('password', 'Heslo:')
 				->setRequired('Prosím vyplňte své heslo.');
@@ -79,7 +92,7 @@ class SignPresenter extends BaseBasePresenter
 	{
 		$values = $form->values;
 
-		$this->context->createService('userManager')->setPassword($this->user->getId(), $values->password);
+		$this->userManager->setPassword($this->user->getId(), $values->password);
 		$this->flashMessage('Heslo bylo změněno');
 		$this->redirect('Charts:');
 	}
