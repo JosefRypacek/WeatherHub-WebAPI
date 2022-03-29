@@ -139,8 +139,8 @@ class ChartsPresenter extends BasePresenter
 			$datay1 = array();
 			$datax1 = array();
 			// nette related is (or may be) memory killer!
-			// can using pure query - is 5x better (have 5 devices - is there any corelation?)
-			$related = $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()))->group('CONCAT(device_id, \'_\', FLOOR(ts/(1800)))');
+			// can use pure query - is 5x better (have 5 devices - is there any corelation?)
+			$related = $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()))->group('CONCAT(device_id, \'_\', FLOOR(ts/(1800)))');
 			foreach ($related as $value) {
 				$datax1[] = $value->ts;
 				$datay1[] = $value->t1;
