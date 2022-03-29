@@ -132,6 +132,13 @@ class CronPresenter extends BaseBasePresenter
 					$insertRow = array(
 						'device_id' => $device->deviceid,
 						'ts' => $measurement->ts,
+						't1' => NULL,
+						't2' => NULL,
+					   	'h' => NULL,
+					    	'r' => NULL,
+					    	'ws' => NULL,
+					    	'wg' => NULL,
+					    	'wd' => NULL,
 					);
 					
 					// Tested devices: 2, 3, 8, 11

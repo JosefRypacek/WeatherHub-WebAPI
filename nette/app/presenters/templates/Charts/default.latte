@@ -67,7 +67,7 @@
 		if (redraw !== true) {
 			data[{{$key}}] = new google.visualization.arrayToDataTable([
 				[{label: 'Timestamp', type: 'date'},'Teplota'{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}},'Vlhkost'{{/if}}],
-				{{foreach $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+				{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, measurement.h, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 				{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}}
 					[new Date({{$item->ts}} * 1000), {{$item->t1}}, {{$item->h}}],
 				{{else}}
@@ -124,7 +124,7 @@
 			{{var $current = 0}}
 			{{foreach $devices as $device}}
 			    {{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}
-				{{foreach $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+				{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					[new Date({{$item->ts * 1000}}), 
 					{{for $i = 0; $i < $max; $i++}}
 						{{if $i == $current}}{{$item->t1}},{{else}}null,{{/if}}
