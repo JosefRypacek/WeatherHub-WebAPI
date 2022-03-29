@@ -119,8 +119,8 @@
 		// ALL in ONE graph
 		if (redraw !== true) {
 			data["allinone"] = new google.visualization.arrayToDataTable([
-			[{label: 'Timestamp', type: 'date'},{{foreach $devices as $device}}{{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}{{$device->name}},{{/if}}{{/foreach}}],
-			{{var $max = count($devices)}}
+			{{var $max = 0}}
+			[{label: 'Timestamp', type: 'date'},{{foreach $devices as $device}}{{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}{{$device->name}},{{var $max = $max +1}}{{/if}}{{/foreach}}],
 			{{var $current = 0}}
 			{{foreach $devices as $device}}
 			    {{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}
