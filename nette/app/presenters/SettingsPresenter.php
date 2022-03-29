@@ -24,6 +24,7 @@ class SettingsPresenter extends BasePresenter
 		
 		$grid->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
 		$grid->setModel($this->database->table('device')->where(['user_id' => $this->user->getId()]));
+		$grid->setDefaultSort(['order'=> 'ASC']);
 
 		$grid->setPrimaryKey('int_id_grido');
 
