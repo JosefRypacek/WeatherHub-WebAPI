@@ -93,6 +93,16 @@ class CronPresenter extends BaseBasePresenter
 			 * t1  - The measured temperature in celsius
 			 * t2  - The measured temperature in celsius of the cable / external sensor
 			 * h   - The measured humidity
+			 * 
+			 * r:	The rain value in mm, 0.258 mm of rain are equal to one flip
+			 * 
+			 * ws:	The measured windspeed in m/s
+			 * wg:	The measured gust in m/s
+			 * wd:	The wind direction
+			 * 	0: North, 1: North-northeast, 2: Northeast, 3: East-northeast
+			 *	4: East, 5: East-southeast, 6: Southeast, 7: South-Southeast
+			 *	8: South, 9: South-southwest, 10: Southwest, 11: West-southwest
+			 *	12:West, 13: West-northwest, 14: Northwest, 15: Northnorthwest
 			 */
 
 			// Example dumps of interesting parts of response
@@ -122,24 +132,38 @@ class CronPresenter extends BaseBasePresenter
 					$insertRow = array(
 						'device_id' => $device->deviceid,
 						'ts' => $measurement->ts,
-						't1' => NULL,
-						't2' => NULL,
-						'h' => NULL,
 					);
 					
+					// Tested devices: 2, 3, 8, 11
+					// Also added < 10 according to REST API documentation, not sure about >= 10 and letter A+
+					
 					// Temperature1
-					if (in_array($device->devicetypeid, [1,2,3,4,5,6,7,8,9,'a','e','f',11,12,17,18,20])) {
+					if (in_array($device->devicetypeid, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
 						$insertRow['t1'] = $measurement->t1;
 					}
 					
 					// Temperature2
-					if (in_array($device->devicetypeid, [1,4,5,6,7,9,'f',11])) {
+					if (in_array($device->devicetypeid, [1, 4, 5, 6, 7, 9])) {
 						$insertRow['t2'] = $measurement->t2;
 					}
 					
 					// Humidity
-					if (in_array($device->devicetypeid, [3,4,5,6,7,9,'e',12,18])) {
+					if (in_array($device->devicetypeid, [3, 4, 5, 6, 7, 9])) {
 						$insertRow['h'] = $measurement->h;
+					}
+					
+					// Rain in mm
+					if (in_array($device->devicetypeid, [8])) { 
+						$insertRow['r'] = $measurement->r;
+					}
+					
+					// Wind
+					// device type should be 'ID0B', but it is '11', not sure how will be '11' seen
+					if (in_array($device->devicetypeid, [11])) {
+						$insertRow['ws'] = $measurement->ws;
+						$insertRow['wg'] = $measurement->wg;
+						$insertRow['wd'] = $measurement->wd;
+						
 					}
 					
 					// Insert row into array

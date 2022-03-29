@@ -63,11 +63,12 @@
 
 		// For each device generate DataTable & graph
 		{{foreach $devices as $key => $device}}
+		{{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}
 		if (redraw !== true) {
 			data[{{$key}}] = new google.visualization.arrayToDataTable([
-				[{label: 'Timestamp', type: 'date'},'Teplota'{{if $device->type == 3}},'Vlhkost'{{/if}}],
+				[{label: 'Timestamp', type: 'date'},'Teplota'{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}},'Vlhkost'{{/if}}],
 				{{foreach $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
-				{{if $device->type == 3}}
+				{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}}
 					[new Date({{$item->ts}} * 1000), {{$item->t1}}, {{$item->h}}],
 				{{else}}
 					[new Date({{$item->ts}} * 1000), {{$item->t1}}],
@@ -76,7 +77,7 @@
 			]);
 			formatter_date.format(data[{{$key}}], 0);
 			formatter_temp.format(data[{{$key}}], 1);
-			{{if $device->type == 3}}
+			{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}}
 			formatter_hum.format(data[{{$key}}], 2);
 			{{/if}}
 		}
@@ -84,7 +85,7 @@
 		title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
 		legend: {position: 'bottom'},
 		hAxis: {format: 'd. M. yyyy'},
-		{{if $device->type == 3}}
+		{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}}
 		series: {
 			0: {targetAxisIndex: 0,
 			{{if !empty($device->color)}}
@@ -111,6 +112,7 @@
 
 		var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key}}));
 		chart.draw(data[{{$key}}], options);
+		{{/if}}
 		{{/foreach}}
 
 		// -------------------------------------------------------------------------
@@ -121,6 +123,7 @@
 			{{var $max = count($devices)}}
 			{{var $current = 0}}
 			{{foreach $devices as $device}}
+			    {{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}
 				{{foreach $device->related('measurement')->select('measurement.*, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					[new Date({{$item->ts * 1000}}), 
 					{{for $i = 0; $i < $max; $i++}}
@@ -129,6 +132,7 @@
 					],
 				{{/foreach}}
 				{{var $current = $current +1}}
+			    {{/if}}
 			{{/foreach}}
 			]);
 
