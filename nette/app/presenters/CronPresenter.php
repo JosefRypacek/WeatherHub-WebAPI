@@ -82,45 +82,66 @@ class CronPresenter extends BaseBasePresenter
 			/*
 			 * RESPONSE STRUCTURE
 			 * 
-			 * idx - ID of ???
-			 * ts  - Time of measurement
+			 * More details including types of devices can be found in REST API documentation.
+			 * https://mobile-alerts.eu/info/public_server_api_documentation.pdf
+			 * 
+			 * idx - Unique id of the measurement
+			 * ts  - Timestamp of the measurement in epoch time
 			 * tx  - ID of measurement unique for each device
-			 * c   - Time of data upload ???
-			 * t1  - temperature
-			 * h   - humidity
+			 * c   - Timestamp when the measurement was received by the server
+			 * 
+			 * t1  - The measured temperature in celsius
+			 * t2  - The measured temperature in celsius of the cable / external sensor
+			 * h   - The measured humidity
 			 */
 
 			// Example dumps of interesting parts of response
-			//dump($data);
+//			dump($data);
 //			dump($data->result->devices);
-			//dump($data->result->devices[0]->measurements);
+//			dump($data->result->devices[0]->measurements);
+
 			// Create array of important values for database
 			$insertArr = array();
 			if (!isset($data->result)) {
 				continue;
 			}
 			foreach ($data->result->devices as $device) {
-				// auto update of name stored in DB
-				$deviceDb = $devicesDb->get($device->deviceid);
+//				dump($device->measurements);
 
 				// update device name if user want to (names are probably synchronized with chosen deviceid/vendorid/phoneid - androidApp)
-				if ($user->updatenames == 1 && $device->name != $deviceDb->name) {
-					$deviceDb->update(['name' => $device->name]);
+				if ($user->updatenames == 1) {
+					$deviceDb = $devicesDb->get($device->deviceid);
+					if($device->name != $deviceDb->name){
+						$deviceDb->update(['name' => $device->name]);
+					}
 				}
 
 				// Store measurements
 				foreach ($device->measurements as $measurement) {
-					// Common values for devicetypeid 2 & 3
+					// Common values
 					$insertRow = array(
 						'device_id' => $device->deviceid,
 						'ts' => $measurement->ts,
-						't1' => $measurement->t1,
-						'h' => NULL, // needed!
+						't1' => NULL,
+						't2' => NULL,
+						'h' => NULL,
 					);
-					// Humidity for devicetypeid 3
-					if ($device->devicetypeid == 3) {
+					
+					// Temperature1
+					if (in_array($device->devicetypeid, [1,2,3,4,5,6,7,8,9,'a','e','f',11,12,17,18,20])) {
+						$insertRow['t1'] = $measurement->t1;
+					}
+					
+					// Temperature2
+					if (in_array($device->devicetypeid, [1,4,5,6,7,9,'f',11])) {
+						$insertRow['t2'] = $measurement->t2;
+					}
+					
+					// Humidity
+					if (in_array($device->devicetypeid, [3,4,5,6,7,9,'e',12,18])) {
 						$insertRow['h'] = $measurement->h;
 					}
+					
 					// Insert row into array
 					$insertArr[] = $insertRow;
 				}
