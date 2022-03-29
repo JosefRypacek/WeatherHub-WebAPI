@@ -135,7 +135,7 @@ class ChartsPresenter extends BasePresenter
 		$devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 
 		foreach ($devices as $device) {
-		    if (in_array($device->devicetypeid, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+		    if (in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
 			$datay1 = array();
 			$datax1 = array();
 			// nette related is (or may be) memory killer!
