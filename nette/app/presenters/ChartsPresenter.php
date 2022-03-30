@@ -122,15 +122,17 @@ class ChartsPresenter extends BasePresenter
 		// Setup the graph
 		$graph = new \Graph(1900, 800);
 		$graph->SetScale('datlin');
-
+		
+		$graph->xaxis->SetPos("min");
 		$graph->yaxis->HideTicks(false, false);
 		$graph->xgrid->Show();
 		$graph->xgrid->SetColor('#E3E3E3');
 
 
 		$graph->xaxis->SetLabelAngle(90); // Set the angle for the labels to 90 degrees
-		$graph->xaxis->scale->SetDateFormat('j. n. Y - H:i'); // The automatic format string for dates can be overridden
-		$graph->xaxis->scale->SetTimeAlign(MINADJ_5); // Adjust the start/end to a specific alignment
+		$graph->xaxis->scale->SetDateFormat('j. n. Y');
+		$graph->xaxis->scale->SetDateAlign(DAYADJ_1); // Adjust the start/end to a specific alignment
+
 		// Prepare data
 		$devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 
@@ -157,6 +159,8 @@ class ChartsPresenter extends BasePresenter
 
 
 		$graph->legend->SetFrameWeight(1); // border around legend
+		$graph->legend->Pos(0.5,0.01, 'center', 'top');
+
 		$graph->Stroke(); // generate graph
 		$this->terminate();
 	}
