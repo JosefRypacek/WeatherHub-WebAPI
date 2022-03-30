@@ -62,10 +62,10 @@
 	var data = {};
 	function drawChart(redraw) {		
 		var formatter_date = new google.visualization.DateFormat({pattern: "HH:mm - d. M. yyyy"});
-		var formatter_temp = new google.visualization.NumberFormat({fractionDigits: 1, suffix: '°C'});
-		var formatter_hum = new google.visualization.NumberFormat({fractionDigits: 0, suffix: '%'});
-		var formatter_rain = new google.visualization.NumberFormat({fractionDigits: 0, suffix: 'mm'});
-		var formatter_wind = new google.visualization.NumberFormat({fractionDigits: 0, suffix: 'm/s'});
+		var formatter_temp = new google.visualization.NumberFormat({fractionDigits: 1, suffix: ' °C'});
+		var formatter_hum = new google.visualization.NumberFormat({fractionDigits: 0, suffix: ' %'});
+		var formatter_rain = new google.visualization.NumberFormat({fractionDigits: 0, suffix: ' mm'});
+		var formatter_wind = new google.visualization.NumberFormat({fractionDigits: 0, suffix: ' m/s'});
 
 		// -------------------------------------------------------------------------
 		// Signle graph: Temperature & humidity | rain | wind
