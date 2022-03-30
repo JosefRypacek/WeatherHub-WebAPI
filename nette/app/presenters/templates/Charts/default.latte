@@ -11,6 +11,10 @@
 <div id="curve_chart_all" style="height: 400px"></div>
 {foreach $devices as $key => $device}
 	<div id="curve_chart{$key}" style="height: 400px"></div>
+	{if in_array($device->type, $deviceTypeList['r'])}
+	    {* add another one chart for rain device *}
+	    <div id="curve_chart{$key}r" style="height: 400px"></div>
+	{/if}
 {/foreach}
 
 {/block}
@@ -60,70 +64,129 @@
 		var formatter_date = new google.visualization.DateFormat({pattern: "HH:mm - d. M. yyyy"});
 		var formatter_temp = new google.visualization.NumberFormat({fractionDigits: 1, suffix: '°C'});
 		var formatter_hum = new google.visualization.NumberFormat({fractionDigits: 0, suffix: '%'});
+		var formatter_rain = new google.visualization.NumberFormat({fractionDigits: 0, suffix: 'mm'});
+		var formatter_wind = new google.visualization.NumberFormat({fractionDigits: 0, suffix: 'm/s'});
 
+		// -------------------------------------------------------------------------
+		// Signle graph: Temperature & humidity | rain | wind
 		// For each device generate DataTable & graph
 		{{foreach $devices as $key => $device}}
-		{{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}
-		if (redraw !== true) {
-			data[{{$key}}] = new google.visualization.arrayToDataTable([
-				[{label: 'Timestamp', type: 'date'},'Teplota'{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}},'Vlhkost'{{/if}}],
-				{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, measurement.h, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
-				{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}}
-					[new Date({{$item->ts}} * 1000), {{$item->t1}}, {{$item->h}}],
-				{{else}}
-					[new Date({{$item->ts}} * 1000), {{$item->t1}}],
+		    {{if in_array($device->type, $deviceTypeList['t1'])}}
+			if (redraw !== true) {
+				data[{{$key}}] = new google.visualization.arrayToDataTable([
+					[{label: 'Timestamp', type: 'date'},'Teplota'{{if in_array($device->type, $deviceTypeList['h'])}},'Vlhkost'{{/if}}],
+					{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, measurement.h, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+					    {{if in_array($device->type, $deviceTypeList['h'])}}
+						    [new Date({{$item->ts * 1000}}), {{$item->t1}}, {{$item->h}}],
+					    {{else}}
+						    [new Date({{$item->ts * 1000}}), {{$item->t1}}],
+					    {{/if}}
+					{{/foreach}}
+				]);
+				formatter_date.format(data[{{$key}}], 0);
+				formatter_temp.format(data[{{$key}}], 1);
+				{{if in_array($device->type, $deviceTypeList['h'])}}
+				    formatter_hum.format(data[{{$key}}], 2);
 				{{/if}}
-				{{/foreach}}
-			]);
-			formatter_date.format(data[{{$key}}], 0);
-			formatter_temp.format(data[{{$key}}], 1);
-			{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}}
-			formatter_hum.format(data[{{$key}}], 2);
-			{{/if}}
-		}
-		var options = {
-		title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
-		legend: {position: 'bottom'},
-		hAxis: {format: 'd. M. yyyy'},
-		{{if in_array($device->type, [3, 4, 5, 6, 7, 9])}}
-		series: {
-			0: {targetAxisIndex: 0,
-			{{if !empty($device->color)}}
-				color: {{$device->color}},
-			{{/if}}
-			},
-			1: {targetAxisIndex: 1, lineWidth: 1}
-		},
-		vAxes: {
-			0: {/*title: 'Teplota (°C)', */format:'#.# °C'},
-			1: {/*title: 'Vlhkost (%)' */ format:'# \'%\''}
-		},
-		{{else}}
+			}
+			var options = {
+			title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
+			legend: {position: 'bottom'},
+			hAxis: {format: 'd. M. yyyy HH:mm'},
+			{{if in_array($device->type, $deviceTypeList['h'])}}
+			    series: {
+				    0: {targetAxisIndex: 0,
+				    {{if !empty($device->color)}}
+					    color: {{$device->color}},
+				    {{/if}}
+				    },
+				    1: {targetAxisIndex: 1, lineWidth: 1}
+			    },
+			    vAxes: {
+				    0: {/*title: 'Teplota (°C)', */format:'#.# °C'},
+				    1: {/*title: 'Vlhkost (%)' */ format:'# \'%\''}
+			    },
+			{{else}}
 
-			{{if !empty($device->color)}}
-		series: {
-			0: {color: {{$device->color}}}
-		},
+				    {{if !empty($device->color)}}
+			    series: {
+				    0: {color: {{$device->color}}}
+			    },
+				    {{/if}}
+
+			    vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
 			{{/if}}
+			};
 
-		vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
-		{{/if}}
-		};
+			var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key}}));
+			chart.draw(data[{{$key}}], options);
+		    {{/if}}
+		    {{if in_array($device->type, $deviceTypeList['r'])}}
+			if (redraw !== true) {
+				data[{{$key.'r'}}] = new google.visualization.arrayToDataTable([
+					[{label: 'Timestamp', type: 'date'},'Srážky'],
+					{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.r, ROUND(AVG(r),1) AS r')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+					    [new Date({{$item->ts * 1000}}), {{$item->r}}],
+					{{/foreach}}
+				]);
+				formatter_date.format(data[{{$key.'r'}}], 0);
+				formatter_rain.format(data[{{$key.'r'}}], 1);
+			}
+			var options = {
+			title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
+			legend: {position: 'bottom'},
+			hAxis: {format: 'd. M. yyyy HH:mm'},
+				    {{if !empty($device->color)}}
+			    series: {
+				    0: {color: {{$device->color}}}
+			    },
+				    {{/if}}
 
-		var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key}}));
-		chart.draw(data[{{$key}}], options);
-		{{/if}}
+			    vAxis: {/*title: 'Teplota (°C)', */format:'#.# mm'},
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key.'r'}}));
+			chart.draw(data[{{$key.'r'}}], options);
+		    {{/if}}
+		    {{if in_array($device->type, $deviceTypeList['wsgd'])}}
+			if (redraw !== true) {
+				data[{{$key}}] = new google.visualization.arrayToDataTable([
+					[{label: 'Timestamp', type: 'date'},'Vítr rychlost', 'Vítr poryvy'],
+					{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.ws, measurement.wg, ROUND(AVG(ws),1) AS ws, ROUND(AVG(wg),1) AS wg')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+					    [new Date({{$item->ts * 1000}}), {{$item->ws}}, {{$item->wg}}],
+					{{/foreach}}
+				]);
+				formatter_date.format(data[{{$key}}], 0);
+				formatter_wind.format(data[{{$key}}], 1);
+				formatter_wind.format(data[{{$key}}], 2);
+			}
+			var options = {
+			title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
+			legend: {position: 'bottom'},
+			hAxis: {format: 'd. M. yyyy HH:mm'},
+				    {{if !empty($device->color)}}
+			    series: {
+				    0: {color: {{$device->color}}}
+			    },
+				    {{/if}}
+
+			    vAxis: {/*title: 'Teplota (°C)', */format:'#.# m/s'},
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key}}));
+			chart.draw(data[{{$key}}], options);
+		    {{/if}}
 		{{/foreach}}
 
 		// -------------------------------------------------------------------------
-		// ALL in ONE graph
+		// Temperature ALL in ONE graph
 		if (redraw !== true) {
 			data["allinone"] = new google.visualization.arrayToDataTable([
 			{{var $max = 0}}
-			[{label: 'Timestamp', type: 'date'},{{foreach $devices as $device}}{{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}{{$device->name}},{{var $max = $max +1}}{{/if}}{{/foreach}}],
+			[{label: 'Timestamp', type: 'date'},{{foreach $devices as $device}}{{if in_array($device->type, $deviceTypeList['t1'])}}{{$device->name}},{{var $max = $max +1}}{{/if}}{{/foreach}}],
 			{{var $current = 0}}
 			{{foreach $devices as $device}}
-			    {{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}
+			    {{if in_array($device->type, $deviceTypeList['t1'])}}
 				{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					[new Date({{$item->ts * 1000}}), 
 					{{for $i = 0; $i < $max; $i++}}
@@ -142,14 +205,14 @@
 			{{/for}}
 		}
 		var options = {
-			title: 'ALL in ONE',
+			title: 'Teplota ALL in ONE',
 			legend: {position: 'bottom'},
-			hAxis: {format: 'd. M. yyyy'},
+			hAxis: {format: 'd. M. yyyy HH:mm'},
 			vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
 			series: {
 		{{var $current = 0}}
 		{{foreach $devices as $device}}
-		{{if in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])}}
+		{{if in_array($device->type, $deviceTypeList['t1'])}}
 		{{if !empty($device->color)}}
 				{{$current}}: {color: {{$device->color}}},
 		{{/if}}

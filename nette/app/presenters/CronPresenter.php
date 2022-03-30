@@ -142,31 +142,31 @@ class CronPresenter extends BaseBasePresenter
 					);
 					
 					// Tested devices: 2, 3, 8, 11
-					// Also added < 10 according to REST API documentation, not sure about >= 10 and letter A+
+					// Also added < 10 to list according to REST API documentation, not sure about >= 10 and letter A+
 					
 					// Temperature1
-					if (in_array($device->devicetypeid, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+					if (in_array($device->devicetypeid, $this->deviceTypeList['t1'])) {
 						$insertRow['t1'] = $measurement->t1;
 					}
 					
 					// Temperature2
-					if (in_array($device->devicetypeid, [1, 4, 5, 6, 7, 9])) {
+					if (in_array($device->devicetypeid, $this->deviceTypeList['t2'])) {
 						$insertRow['t2'] = $measurement->t2;
 					}
 					
 					// Humidity
-					if (in_array($device->devicetypeid, [3, 4, 5, 6, 7, 9])) {
+					if (in_array($device->devicetypeid, $this->deviceTypeList['h'])) {
 						$insertRow['h'] = $measurement->h;
 					}
 					
 					// Rain in mm
-					if (in_array($device->devicetypeid, [8])) { 
+					if (in_array($device->devicetypeid, $this->deviceTypeList['r'])) { 
 						$insertRow['r'] = $measurement->r;
 					}
 					
 					// Wind
 					// device type should be 'ID0B', but it is '11', not sure how will be '11' seen
-					if (in_array($device->devicetypeid, [11])) {
+					if (in_array($device->devicetypeid, $this->deviceTypeList['wsgd'])) {
 						$insertRow['ws'] = $measurement->ws;
 						$insertRow['wg'] = $measurement->wg;
 						$insertRow['wd'] = $measurement->wd;

@@ -104,6 +104,7 @@ class ChartsPresenter extends BasePresenter
 		$this->template->devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 		$this->template->from = $this->from->getTimestamp();
 		$this->template->to = $this->to->getTimestamp();
+		$this->template->deviceTypeList = $this->deviceTypeList;
 	}
 
 	public function actionGet1Y()
@@ -137,7 +138,7 @@ class ChartsPresenter extends BasePresenter
 		$devices = $this->database->table('user')->get($this->user->getId())->related('device')->order('order');
 
 		foreach ($devices as $device) {
-		    if (in_array($device->type, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+		    if (in_array($device->type, $this->deviceTypeList['t1'])) {
 			$datay1 = array();
 			$datax1 = array();
 			// nette related is (or may be) memory killer!
