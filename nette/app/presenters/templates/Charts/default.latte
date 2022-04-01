@@ -126,7 +126,8 @@
 				data[{{$key.'r'}}] = new google.visualization.arrayToDataTable([
 					[{label: 'Timestamp', type: 'date'},'Srážky'],
 					{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.r, ROUND(AVG(r),1) AS r')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
-					    [new Date({{$item->ts * 1000}}), {{$item->r}}],
+					    {{first}}{{var $start = $item->r}}{{/first}}
+					    [new Date({{$item->ts * 1000}}), {{$item->r - $start}}],
 					{{/foreach}}
 				]);
 				formatter_date.format(data[{{$key.'r'}}], 0);
@@ -147,6 +148,7 @@
 
 			var chart = new google.visualization.LineChart(document.getElementById('curve_chart' +{{$key.'r'}}));
 			chart.draw(data[{{$key.'r'}}], options);
+			{{* I wanted to create derive type of chart here, but data are available only in time of rain, so I would need to create "false" zero data to make chart useful *}}
 		    {{/if}}
 		    {{if in_array($device->type, $deviceTypeList['wsgd'])}}
 			if (redraw !== true) {
