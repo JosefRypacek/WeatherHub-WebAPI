@@ -92,7 +92,7 @@
 			var options = {
 			title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
 			legend: {position: 'bottom'},
-			hAxis: {format: 'd. M. yyyy HH:mm'},
+			hAxis: {format: 'd. M. yyyy HH:mm', minValue: new Date({{$from * 1000}}), maxValue: new Date({{$to * 1000}})},
 			{{if in_array($device->type, $deviceTypeList['h'])}}
 			    series: {
 				    0: {targetAxisIndex: 0,
@@ -136,7 +136,10 @@
 			var options = {
 			title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
 			legend: {position: 'bottom'},
-			hAxis: {format: 'd. M. yyyy HH:mm'},
+			hAxis: {format: 'd. M. yyyy HH:mm', minValue: new Date({{$from * 1000}}), maxValue: new Date({{$to * 1000}})},
+			pointsVisible: true, 
+			pointShape: 'circle',
+			pointSize: 3,
 				    {{if !empty($device->color)}}
 			    series: {
 				    0: {color: {{$device->color}}}
@@ -165,7 +168,7 @@
 			var options = {
 			title: {{$device->name}} + ' (' + {{$device->related('measurement')->max('ts')|date:'H:i'}} + ')',
 			legend: {position: 'bottom'},
-			hAxis: {format: 'd. M. yyyy HH:mm'},
+			hAxis: {format: 'd. M. yyyy HH:mm', minValue: new Date({{$from * 1000}}), maxValue: new Date({{$to * 1000}})},
 				    {{if !empty($device->color)}}
 			    series: {
 				    0: {color: {{$device->color}}}
@@ -189,13 +192,22 @@
 			{{var $current = 0}}
 			{{foreach $devices as $device}}
 			    {{if in_array($device->type, $deviceTypeList['t1'])}}
+				{{var $count = 0}}
 				{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					[new Date({{$item->ts * 1000}}), 
 					{{for $i = 0; $i < $max; $i++}}
 						{{if $i == $current}}{{$item->t1}},{{else}}null,{{/if}}
 					{{/for}}
 					],
+					{{var $count = $count +1}}
 				{{/foreach}}
+				{{if $count == 0}}
+				    [new Date({{$from * 1000}}), 
+				    {{for $i = 0; $i < $max; $i++}}
+					    {{if $i == $current}}0,{{else}}null,{{/if}}
+				    {{/for}}
+				    ],
+				{{/if}}
 				{{var $current = $current +1}}
 			    {{/if}}
 			{{/foreach}}
@@ -209,7 +221,7 @@
 		var options = {
 			title: 'Teplota ALL in ONE',
 			legend: {position: 'bottom'},
-			hAxis: {format: 'd. M. yyyy HH:mm'},
+			hAxis: {format: 'd. M. yyyy HH:mm', minValue: new Date({{$from * 1000}}), maxValue: new Date({{$to * 1000}})},
 			vAxis: {/*title: 'Teplota (°C)', */format:'#.# °C'},
 			series: {
 		{{var $current = 0}}
