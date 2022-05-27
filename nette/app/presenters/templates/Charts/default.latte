@@ -75,7 +75,7 @@
 			if (redraw !== true) {
 				data[{{$key}}] = new google.visualization.arrayToDataTable([
 					[{label: 'Timestamp', type: 'date'},'Teplota'{{if in_array($device->type, $deviceTypeList['h'])}},'Vlhkost'{{/if}}],
-					{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, measurement.h, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+                                        {{foreach $device->related('measurement')->select('ROUND(AVG(ts),1) AS ts, ROUND(AVG(h),1) AS h, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					    {{if in_array($device->type, $deviceTypeList['h'])}}
 						    [new Date({{$item->ts * 1000}}), {{$item->t1}}, {{$item->h}}],
 					    {{else}}
@@ -125,7 +125,7 @@
 			if (redraw !== true) {
 				data[{{$key.'r'}}] = new google.visualization.arrayToDataTable([
 					[{label: 'Timestamp', type: 'date'},'Srážky'],
-					{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.r, ROUND(AVG(r),1) AS r')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+					{{foreach $device->related('measurement')->select('ROUND(AVG(ts),1) AS ts,  ROUND(AVG(r),1) AS r')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					    {{first}}{{var $start = $item->r}}{{/first}}
 					    [new Date({{$item->ts * 1000}}), {{$item->r - $start}}],
 					{{/foreach}}
@@ -157,7 +157,7 @@
 			if (redraw !== true) {
 				data[{{$key}}] = new google.visualization.arrayToDataTable([
 					[{label: 'Timestamp', type: 'date'},'Vítr rychlost', 'Vítr poryvy'],
-					{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.ws, measurement.wg, ROUND(AVG(ws),1) AS ws, ROUND(AVG(wg),1) AS wg')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+					{{foreach $device->related('measurement')->select('ROUND(AVG(ts),1) AS ts, ROUND(AVG(ws),1) AS ws, ROUND(AVG(wg),1) AS wg')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					    [new Date({{$item->ts * 1000}}), {{$item->ws}}, {{$item->wg}}],
 					{{/foreach}}
 				]);
@@ -193,7 +193,7 @@
 			{{foreach $devices as $device}}
 			    {{if in_array($device->type, $deviceTypeList['t1'])}}
 				{{var $count = 0}}
-				{{foreach $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
+				{{foreach $device->related('measurement')->select('ROUND(AVG(ts),1) AS ts, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					[new Date({{$item->ts * 1000}}), 
 					{{for $i = 0; $i < $max; $i++}}
 						{{if $i == $current}}{{$item->t1}},{{else}}null,{{/if}}

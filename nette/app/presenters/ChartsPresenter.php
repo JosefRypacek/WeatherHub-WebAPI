@@ -143,7 +143,9 @@ class ChartsPresenter extends BasePresenter
 			$datax1 = array();
 			// nette related is (or may be) memory killer!
 			// can use pure query - is 5x better (have 5 devices - is there any corelation?)
-			$related = $device->related('measurement')->select('measurement.device_id, measurement.ts, measurement.t1, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()))->group('CONCAT(device_id, \'_\', FLOOR(ts/(1800)))');
+
+                        // these queries (also in default.lette) are modified to work with mode only_full_group_by ("device_id, " added into group() even not needed
+			$related = $device->related('measurement')->select('ROUND(AVG(measurement.ts),1) AS ts, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/(1800)))');
 			foreach ($related as $value) {
 				$datax1[] = $value->ts;
 				$datay1[] = $value->t1;
