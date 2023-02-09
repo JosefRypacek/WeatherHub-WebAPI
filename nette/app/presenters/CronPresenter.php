@@ -118,9 +118,14 @@ class CronPresenter extends BaseBasePresenter
 			foreach ($data->result->devices as $device) {
 //				dump($device->measurements);
 
+                                // set correct devicetypeid here (use 0 when creating new device in DB)
+                                $deviceDb = $devicesDb->get($device->deviceid);
+                                if($device->devicetypeid != $deviceDb->type){
+                                        $deviceDb->update(['type' => $device->devicetypeid]);
+                                }
+
 				// update device name if user want to (names are probably synchronized with chosen deviceid/vendorid/phoneid - androidApp)
 				if ($user->updatenames == 1) {
-					$deviceDb = $devicesDb->get($device->deviceid);
 					if($device->name != $deviceDb->name){
 						$deviceDb->update(['name' => $device->name]);
 					}
