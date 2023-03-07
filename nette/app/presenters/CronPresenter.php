@@ -34,8 +34,9 @@ class CronPresenter extends BaseBasePresenter
 
 			// Get user personal values for query
 			$phoneInfo = array(
-				'devicetoken' => $user->devicetoken,
-				'vendorid' => $user->vendorid,
+                                // devicetoken and vendorid are not required anymore - no more decrypting of HTTPS communication
+				'devicetoken' => 'devicetoken',//$user->devicetoken,
+				'vendorid' => 'vendorid',//$user->vendorid,
 				'phoneid' => $user->phoneid,
 			);
 
@@ -106,10 +107,10 @@ class CronPresenter extends BaseBasePresenter
 			 */
 
 			// Example dumps of interesting parts of response
-//			dump($data);
+			dump($data);
 //			dump($data->result->devices);
 //			dump($data->result->devices[0]->measurements);
-
+                        $this->terminate();
 			// Create array of important values for database
 			$insertArr = array();
 			if (!isset($data->result)) {
@@ -124,7 +125,7 @@ class CronPresenter extends BaseBasePresenter
                                         $deviceDb->update(['type' => $device->devicetypeid]);
                                 }
 
-				// update device name if user want to (names are probably synchronized with chosen deviceid/vendorid/phoneid - androidApp)
+				// update device name if user want to (names are probably synchronized with chosen phoneid - androidApp)
 				if ($user->updatenames == 1) {
 					if($device->name != $deviceDb->name){
 						$deviceDb->update(['name' => $device->name]);
