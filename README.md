@@ -11,7 +11,7 @@ Web application used as a client for TFA WEATHERHUB SmartHome System meteostatio
 - temperature, humidity, rain and wind
 
 ## Other ways for "API"
-- the have new REST API (http://www.mobile-alerts.eu)
+- **the have new REST API (http://www.mobile-alerts.eu)**
   - provided public API is very similar to this app, but it's much more easy to setup
   - public API is limited, the most limiting factor is ability to retrieve only last measurement for each sensor (not able to retrieve measurements for whole hour / day etc...), but this should not be a problem for most of usages
   - not implemented into this app
