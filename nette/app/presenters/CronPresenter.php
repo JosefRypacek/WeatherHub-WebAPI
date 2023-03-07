@@ -107,10 +107,11 @@ class CronPresenter extends BaseBasePresenter
 			 */
 
 			// Example dumps of interesting parts of response
-			dump($data);
+//			dump($data);
 //			dump($data->result->devices);
 //			dump($data->result->devices[0]->measurements);
-                        $this->terminate();
+//                      $this->terminate();
+//                      
 			// Create array of important values for database
 			$insertArr = array();
 			if (!isset($data->result)) {
