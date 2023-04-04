@@ -27,9 +27,12 @@ Web application used as a client for TFA WEATHERHUB SmartHome System meteostatio
  - modify app according to this information
 
 ## Other ways for "API"
-- **the have new REST API (http://www.mobile-alerts.eu)**
-  - provided public API is very similar to this app, but it's much more easy to setup
-  - public API is limited, the most limiting factor is ability to retrieve only last measurement for each sensor (not able to retrieve measurements for whole hour / day etc...), but this should not be a problem for most of usages
+- **new REST API (http://www.mobile-alerts.eu)**
+  - provided public API is very similar to this app, but it's much easier to setup
+  - public API is limited, the most limiting factor is ability to retrieve only last measurement for each sensor (not able to retrieve measurements for whole hour / day etc...), but this should not be a problem for most of usages running 24/7
   - not implemented into this app
 - there is some service http://conradconnect.de (https://mobile-alerts.eu/de/conrad-connect/) with support of these devices
-- there is also http://wh-observer.de (but I'm not sure if it's compatible)
+- there is also http://wh-observer.de (but not all sensors are supported)
+- new https://measurements.mobile-alerts.eu to read all sensors using PhoneID
+- **interesting** information about whole WeatherHub system: https://github.com/sarnau/MMMMobileAlerts
+- and many other projects including Home Assistant integrations and projects working even without cloud API (local connection to GW) 
