@@ -10,10 +10,4 @@
 	"o5/grido": "dev-master#513e9254e3fe50f9890e379caf0225fbf723ecbb",
 	"radekdostal/nette-datetimepicker": "^3.0"
     }
-    ,
-    "config": {
-            "platform": {
-                "php": "7.4"
-            }
-    }
 }
