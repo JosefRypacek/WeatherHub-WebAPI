@@ -20,7 +20,7 @@ session:
 
 
 services:
-	router: App\RouterFactory::createRouter
+	- App\RouterFactory::createRouter
 	- App\Model\UserManager
 	- App\Forms\FormFactory
 	- App\Forms\SignFormFactory
