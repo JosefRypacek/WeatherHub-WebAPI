@@ -11,6 +11,10 @@ use Nette\Utils\Strings;
 class CronPresenter extends BaseBasePresenter
 {
 
+        private const API_TYPE_PUBLIC = 1;
+        private const API_TYPE_APP = 2;
+        private const API_TYPE = self::API_TYPE_PUBLIC;
+
 	/** @var \Nette\DI\Container @inject */
 	public $container;
 
@@ -54,8 +58,13 @@ class CronPresenter extends BaseBasePresenter
 			$measurementfroms = rtrim($measurementfroms, ',');
 			$measurementcounts = rtrim($measurementcounts, ',');
 
-			// GET data from server - the same query as android app
-			$curl = curl_init("www.data199.com:8080/api/v1/dashboard");
+                        if (self::API_TYPE == self::API_TYPE_APP) {
+                            // GET data from server - use the same query as android app
+                            // this endpoint is not working anymore - TODO: sniff it from app
+                            $curl = curl_init("www.data199.com:8080/api/v1/dashboard");
+                        } else {
+                            $curl = curl_init("https://www.data199.com/api/pv1/device/lastmeasurement");
+                        }
 			curl_setopt_array($curl, array(
 				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 				CURLOPT_HTTPHEADER => array('Content-Type' => 'application/x-www-form-urlencoded', 'charset' => 'utf-8', 'Connection' => 'Keep-Alive'),
@@ -67,14 +76,13 @@ class CronPresenter extends BaseBasePresenter
 				CURLOPT_TIMEOUT => 45,
 			));
 			$json = curl_exec($curl);
-			curl_close($curl);
-
-			// should test if request timeouted? eg. curl_errno()
 
 			if ($json === FALSE) {
-				echo 'failed';
+				echo 'Curl error: ' . curl_error($curl);
+                                curl_close($curl);
 				$this->terminate();
 			}
+                        curl_close($curl);
 
 			// Convert data from json to array
 			$data = json_decode($json);
@@ -114,77 +122,146 @@ class CronPresenter extends BaseBasePresenter
 //                      
 			// Create array of important values for database
 			$insertArr = array();
-			if (!isset($data->result)) {
-				continue;
-			}
-			foreach ($data->result->devices as $device) {
-//				dump($device->measurements);
+			if (self::API_TYPE == self::API_TYPE_APP) {
+                            if (!isset($data->result)) {
+                                    continue;
+                            }
+                            foreach ($data->result->devices as $device) {
+    //				dump($device->measurements);
 
-                                // set correct devicetypeid here (use 0 when creating new device in DB)
                                 $deviceDb = $devicesDb->get($device->deviceid);
+                                
+                                // set correct devicetypeid here (use 0 when creating new device in DB)
                                 if($device->devicetypeid != $deviceDb->type){
                                         $deviceDb->update(['type' => $device->devicetypeid]);
                                 }
 
-				// update device name if user want to (names are probably synchronized with chosen phoneid - androidApp)
-				if ($user->updatenames == 1) {
-					if($device->name != $deviceDb->name){
-						$deviceDb->update(['name' => $device->name]);
-					}
-				}
+                                // update device name if user want to (names are probably synchronized with chosen phoneid - androidApp)
+                                if ($user->updatenames == 1) {
+                                        if($device->name != $deviceDb->name){
+                                                $deviceDb->update(['name' => $device->name]);
+                                        }
+                                }
 
-				// Store measurements
-				foreach ($device->measurements as $measurement) {
-					// Common values
-					$insertRow = array(
-						'device_id' => $device->deviceid,
-						'ts' => $measurement->ts,
-						't1' => NULL,
-						't2' => NULL,
-					   	'h' => NULL,
-					    	'r' => NULL,
-					    	'ws' => NULL,
-					    	'wg' => NULL,
-					    	'wd' => NULL,
-					);
-					
-					// Tested devices: 2, 3, 8, 11
-					// Also added < 10 to list according to REST API documentation, not sure about >= 10 and letter A+
-					
-					// Temperature1
-					if (in_array($device->devicetypeid, $this->deviceTypeList['t1'])) {
-						$insertRow['t1'] = $measurement->t1;
-					}
-					
-					// Temperature2
-					if (in_array($device->devicetypeid, $this->deviceTypeList['t2'])) {
-						$insertRow['t2'] = $measurement->t2;
-					}
-					
-					// Humidity
-					if (in_array($device->devicetypeid, $this->deviceTypeList['h'])) {
-						$insertRow['h'] = $measurement->h;
-					}
-					
-					// Rain in mm
-					if (in_array($device->devicetypeid, $this->deviceTypeList['r'])) { 
-						$insertRow['r'] = $measurement->r;
-					}
-					
-					// Wind
-					// device type should be 'ID0B', but it is '11', not sure how will be '11' seen
-					if (in_array($device->devicetypeid, $this->deviceTypeList['wsgd'])) {
-						$insertRow['ws'] = $measurement->ws;
-						$insertRow['wg'] = $measurement->wg;
-						$insertRow['wd'] = $measurement->wd;
-						
-					}
-					
-					// Insert row into array
-					$insertArr[] = $insertRow;
-				}
-			}
+                                // Store measurements
+                                foreach ($device->measurements as $measurement) {
+                                        // Common values
+                                        $insertRow = array(
+                                                'device_id' => $device->deviceid,
+                                                'ts' => $measurement->ts,
+                                                't1' => NULL,
+                                                't2' => NULL,
+                                                'h' => NULL,
+                                                'r' => NULL,
+                                                'ws' => NULL,
+                                                'wg' => NULL,
+                                                'wd' => NULL,
+                                        );
 
+                                        // Tested devices: 2, 3, 8, 11
+                                        // Also added < 10 to list according to REST API documentation, not sure about >= 10 and letter A+
+
+                                        // Temperature1
+                                        if (in_array($device->devicetypeid, $this->deviceTypeList['t1'])) {
+                                                $insertRow['t1'] = $measurement->t1;
+                                        }
+
+                                        // Temperature2
+                                        if (in_array($device->devicetypeid, $this->deviceTypeList['t2'])) {
+                                                $insertRow['t2'] = $measurement->t2;
+                                        }
+
+                                        // Humidity
+                                        if (in_array($device->devicetypeid, $this->deviceTypeList['h'])) {
+                                                $insertRow['h'] = $measurement->h;
+                                        }
+
+                                        // Rain in mm
+                                        if (in_array($device->devicetypeid, $this->deviceTypeList['r'])) {
+                                                $insertRow['r'] = $measurement->r;
+                                        }
+
+                                        // Wind
+                                        // device type should be 'ID0B', but it is '11', not sure how will be '11' seen
+                                        if (in_array($device->devicetypeid, $this->deviceTypeList['wsgd'])) {
+                                                $insertRow['ws'] = $measurement->ws;
+                                                $insertRow['wg'] = $measurement->wg;
+                                                $insertRow['wd'] = $measurement->wd;
+
+                                        }
+
+                                        // Insert row into array
+                                        $insertArr[] = $insertRow;
+                                }
+                            }
+                        } else {
+                            if (!isset($data->devices)) {
+                                    continue;
+                            }
+                            foreach ($data->devices as $device) {
+    //				dump($device->measurements);
+
+                                $deviceDb = $devicesDb->get($device->deviceid);
+
+                                if ($deviceDb->type == 0) {
+                                    echo 'Device with type = 0 -> can not determine available values';
+                                }
+
+                                // Store measurement
+                                $measurement = $device->measurement;
+
+                                // Common values
+                                $insertRow = array(
+                                        'device_id' => $device->deviceid,
+                                        'ts' => $measurement->ts,
+                                        't1' => NULL,
+                                        't2' => NULL,
+                                        'h' => NULL,
+                                        'r' => NULL,
+                                        'ws' => NULL,
+                                        'wg' => NULL,
+                                        'wd' => NULL,
+                                );
+
+                                // Tested devices: 2, 3, 8, 11
+                                // Also added < 10 to list according to REST API documentation, not sure about >= 10 and letter A+
+
+                                // Temperature1
+                                if (in_array($deviceDb->type, $this->deviceTypeList['t1'])) {
+                                        $insertRow['t1'] = $measurement->t1;
+                                }
+
+                                // Temperature2
+                                if (in_array($deviceDb->type, $this->deviceTypeList['t2'])) {
+                                        $insertRow['t2'] = $measurement->t2;
+                                }
+
+                                // Humidity
+                                if (in_array($deviceDb->type, $this->deviceTypeList['h'])) {
+                                        $insertRow['h'] = $measurement->h;
+                                }
+
+                                // Rain in mm
+                                if (in_array($deviceDb->type, $this->deviceTypeList['r'])) {
+                                        $insertRow['r'] = $measurement->r;
+                                }
+
+                                // Wind
+                                // device type should be 'ID0B', but it is '11', not sure how will be '11' seen
+                                if (in_array($deviceDb->type, $this->deviceTypeList['wsgd'])) {
+                                        $insertRow['ws'] = $measurement->ws;
+                                        $insertRow['wg'] = $measurement->wg;
+                                        $insertRow['wd'] = $measurement->wd;
+
+                                }
+
+                                // Insert row into array
+                                $insertArr[] = $insertRow;
+
+                            }
+                        }
+
+//                        dump($insertArr);
 			// Insert and ignore existing (PRIMARY KEY = deviceid+ts)
 			$this->database->query('INSERT IGNORE INTO measurement ?', $insertArr);
 		}
@@ -195,6 +272,7 @@ class CronPresenter extends BaseBasePresenter
 
 	private function getQuery($deviceids, $measurementfroms, $measurementcounts, $phoneInfo)
 	{
+            if (self::API_TYPE == self::API_TYPE_APP) {
 		$paramsArr = array(
 			'devicetoken' => $phoneInfo['devicetoken'],
 			'vendorid' => $phoneInfo['vendorid'],
@@ -231,6 +309,9 @@ class CronPresenter extends BaseBasePresenter
 
 		// remove last char and return query
 		return rtrim($query, '&');
+            } else {
+                return 'deviceids' . '=' . $deviceids;
+            }
 	}
 
 }
