@@ -1,17 +1,7 @@
 {block content}
-<link rel="stylesheet" href="{$basePath}/bower_components/grido/assets/dist/css/grido.css">
-<style>
-	.grido th.column {
-		text-align: left;
-	}
-	.grido th.column span {
-		float: none;
-	}
-</style>
-
 <div class="jumbotron">
 	<ul>
-	    <li>editace: CTRL + 2x kliknout do políčka s hodnotou, změnit, ENTER</li>
+	    <li>editace: 1x kliknout do políčka s hodnotou, změnit, ENTER</li>
 	    <li>barvy lze zadávat pomocí kódu (#123456), vzorník <a href="http://www.jakpsatweb.cz/archiv/barvy-pojmenovane.html">ZDE</a></li>
 	    <li>názvy je možné synchronizovat z originální aplikace - je ale třeba správně nastavit DEVICETOKEN / VENDORID / PHONEID podle aktuálního telefonu</li>
 	</ul>
@@ -24,14 +14,20 @@
 
 {block scripts}
 {include parent}
-<script src="{$basePath}/bower_components/nette.ajax.js/nette.ajax.js"></script>
-<script src="{$basePath}/bower_components/grido/assets/js/grido.js"></script> {* just basic grido without many plugins (not /dist folder *}
-<script src="{$basePath}/bower_components/grido/assets/js/plugins/grido.nette.ajax.js"></script>
 
-<script>
-	$(function () {
-		//init nette ajax
-		$.nette.init();
-	});
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-ui-sortable@1.0.0/jquery-ui.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/nette.ajax.js@2.3.0/nette.ajax.js"></script>
+<script src="{$basePath}/bower_components/ublaboo-datagrid/assets/datagrid.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nette-forms@3.0.4/src/assets/netteForms.min.js"></script>
+
+<!-- It is recommended to include this JS file with just a few bits. It refreshes URL on non ajax request -->
+<script src="{$basePath}/bower_components/ublaboo-datagrid/assets/datagrid-instant-url-refresh.js"></script>
+
+<!-- Use this little extension for ajax spinners -->
+<script src="{$basePath}/bower_components/ublaboo-datagrid/assets/datagrid-spinners.js"></script>
+
+<!-- Include bootstrap-select.js when using FilterMultiSelect (silviomoreto.github.io/bootstrap-select) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.15/dist/js/bootstrap-select.js"></script>
 {/block}

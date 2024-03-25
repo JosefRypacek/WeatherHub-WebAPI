@@ -11,7 +11,7 @@ application:
 
 tracy:
 	email: 'j.rypacek@gmail.com'
-
+	fromEmail: noreply@app.josefrypacek.cz # need to be allowed in OCI
 
 session:
 	expiration: 14 days

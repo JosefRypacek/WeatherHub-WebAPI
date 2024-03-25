@@ -5,15 +5,10 @@
     "#2": "*********************************************************************",
 
     "require": {
-        "php": ">= 7.4",
-        "nette/nette": "~3.1.0",
-	"o5/grido": "~3.2",
-	"radekdostal/nette-datetimepicker": "^3.0",
+        "php": ">= 8.1",
+        "nette/nette": "~3.2.0",
+        "ublaboo/datagrid": "~6.10.0",
+	"radekdostal/nette-datetimepicker": "~3.2",
         "mitoteam/jpgraph": "^10.3"
-    },
-    "config": {
-            "platform": {
-                "php": "7.4"
-            }
     }
 }

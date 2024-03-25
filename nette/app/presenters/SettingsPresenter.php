@@ -19,52 +19,71 @@ class SettingsPresenter extends BasePresenter
 
 	protected function createComponentDeviceGrid($name)
 	{
-		$grid = new \Grido\Grid();
-		$this->addComponent($grid, $name);
-		
-		$grid->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
-		$grid->setModel($this->database->table('device')->where(['user_id' => $this->user->getId()]));
-		$grid->setDefaultSort(['order'=> 'ASC']);
+		$grid = new \Ublaboo\DataGrid\DataGrid($this, $name);
 
-		$grid->setPrimaryKey('int_id_grido');
+                $grid->setPagination(false);
+
+                // probably had filters from grido in session... this is temporary...
+                $grid->setStrictSessionFilterValues(false);
+
+                $grid->setPrimaryKey('int_id_grido');
+                $grid->setDataSource($this->database->table('device')->where(['user_id' => $this->user->getId()]));
+                $grid->setDefaultSort(['order' => 'ASC']);
 
 		$grid->addColumnText('name', 'Název')
-				->setEditable();
+                    ->setEditableCallback(function($id, $value): void {
+                        $this->database->table('device')->where(['int_id_grido' => $id])->update(['name' => $value]);
+                    })
+                    ->setEditableInputType('text', ['class' => 'form-control']);
+
 		$grid->addColumnNumber('order', 'Pořadí')
-				->setEditable();
+                    ->setEditableCallback(function($id, $value): void {
+                        $this->database->table('device')->where(['int_id_grido' => $id])->update(['order' => $value]);
+                    })
+                    ->setEditableInputType('text', ['class' => 'form-control']);
+
 		$grid->addColumnText('color', 'Barva')
-				->setEditable();
+                    ->setEditableCallback(function($id, $value): void {
+                        $this->database->table('device')->where(['int_id_grido' => $id])->update(['color' => $value]);
+                    })
+                    ->setEditableInputType('text', ['class' => 'form-control']);
 	}
 
 	protected function createComponentUserGrid($name)
 	{
-		$grid = new \Grido\Grid();
-		$this->addComponent($grid, $name);
+		$grid = new \Ublaboo\DataGrid\DataGrid($this, $name);
+
+                $grid->setPagination(false);
+
+                // probably had filters from grido in session... this is temporary...
+                $grid->setStrictSessionFilterValues(false);
 		
-		$grid->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
-		$grid->setModel($this->database->table('user')->where(['id' => $this->user->getId()]));
+                $grid->setDataSource($this->database->table('user')->where(['id' => $this->user->getId()]));
 
 
-		$grid->addColumnNumber('updatenames', 'Synchronizovat jména?')
-				->setReplacement([0 => 'NE', 1 => 'ANO'])
-				->setEditable();
-
-//				Tried to setup constraints - check is working, update is NOT working :(
-//
-//				->setEditableCallback(function($id, $new, $old, $column) {
-//					return (intval($new) === 0 || intval($new) === 1);
-//				})
-
+		$grid->addColumnNumber('updatenames', 'Synchronizovat jména? (0/1)')
+                    ->setEditableCallback(function($id, $value): void {
+                        $this->database->table('user')->where(['id' => $id])->update(['updatenames' => $value]);
+                    })
+                    ->setEditableInputType('text', ['class' => 'form-control']);
 
 		$grid->addColumnText('devicetoken', 'devicetoken')
-				->setCustomRender(function($item) {
-					return \Nette\Utils\Strings::truncate($item->devicetoken, 30);
-				})
-				->setEditable();
+                    ->setEditableCallback(function($id, $value): void {
+                        $this->database->table('user')->where(['id' => $id])->update(['devicetoken' => $value]);
+                    })
+                    ->setEditableInputType('text', ['class' => 'form-control']);
+
 		$grid->addColumnNumber('vendorid', 'vendorid')
-				->setEditable();
+                    ->setEditableCallback(function($id, $value): void {
+                        $this->database->table('user')->where(['id' => $id])->update(['vendorid' => $value]);
+                    })
+                    ->setEditableInputType('text', ['class' => 'form-control']);
+
 		$grid->addColumnText('phoneid', 'phoneid')
-				->setEditable();
+                    ->setEditableCallback(function($id, $value): void {
+                        $this->database->table('user')->where(['id' => $id])->update(['phoneid' => $value]);
+                    })
+                    ->setEditableInputType('text', ['class' => 'form-control']);
 	}
 
 }

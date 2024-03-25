@@ -13,7 +13,6 @@ use Nette\Security\Passwords;
  */
 final class UserManager implements Nette\Security\IAuthenticator
 {
-	use Nette\SmartObject;
 
 	private const
 		TABLE_NAME = 'user',
