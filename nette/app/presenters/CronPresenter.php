@@ -207,6 +207,11 @@ class CronPresenter extends BaseBasePresenter
                                     echo 'Device with type = 0 -> can not determine available values';
                                 }
 
+                                if (!isset($device->measurement)) {
+                                    // e.g. rain sensor after a while (1m) without rain and thus without measurements
+                                    continue;
+                                }
+
                                 // Store measurement
                                 $measurement = $device->measurement;
 
