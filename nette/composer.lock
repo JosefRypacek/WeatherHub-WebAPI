@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "849cfcd9889d28248fd977099c09d0ea",
+    "content-hash": "24544dc634270d01ae5f96b5c95eb712",
     "packages": [
         {
             "name": "contributte/application",
@@ -169,16 +169,16 @@
         },
         {
             "name": "mitoteam/jpgraph",
-            "version": "10.4.3",
+            "version": "10.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mitoteam/jpgraph.git",
-                "reference": "f0db97108aec23a3bbb34721365931af992b83b3"
+                "reference": "9ad8e2fcc30f765c788a28543e9705fb541d499f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mitoteam/jpgraph/zipball/f0db97108aec23a3bbb34721365931af992b83b3",
-                "reference": "f0db97108aec23a3bbb34721365931af992b83b3",
+                "url": "https://api.github.com/repos/mitoteam/jpgraph/zipball/9ad8e2fcc30f765c788a28543e9705fb541d499f",
+                "reference": "9ad8e2fcc30f765c788a28543e9705fb541d499f",
                 "shasum": ""
             },
             "require": {
@@ -218,9 +218,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mitoteam/jpgraph/issues",
-                "source": "https://github.com/mitoteam/jpgraph/tree/10.4.3"
+                "source": "https://github.com/mitoteam/jpgraph/tree/10.4.4"
             },
-            "time": "2024-12-01T06:36:31+00:00"
+            "time": "2025-01-01T05:39:20+00:00"
         },
         {
             "name": "nette/application",
@@ -316,16 +316,16 @@
         },
         {
             "name": "nette/bootstrap",
-            "version": "v3.2.4",
+            "version": "v3.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/bootstrap.git",
-                "reference": "4876d25955b4164d714bc17c265f664f6594685b"
+                "reference": "91d08432cb33d6c08d58b215c769d04f20580624"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/bootstrap/zipball/4876d25955b4164d714bc17c265f664f6594685b",
-                "reference": "4876d25955b4164d714bc17c265f664f6594685b",
+                "url": "https://api.github.com/repos/nette/bootstrap/zipball/91d08432cb33d6c08d58b215c769d04f20580624",
+                "reference": "91d08432cb33d6c08d58b215c769d04f20580624",
                 "shasum": ""
             },
             "require": {
@@ -391,9 +391,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/bootstrap/issues",
-                "source": "https://github.com/nette/bootstrap/tree/v3.2.4"
+                "source": "https://github.com/nette/bootstrap/tree/v3.2.5"
             },
-            "time": "2024-06-18T22:13:57+00:00"
+            "time": "2024-11-14T00:49:46+00:00"
         },
         {
             "name": "nette/caching",
@@ -533,16 +533,16 @@
         },
         {
             "name": "nette/database",
-            "version": "v3.2.4",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/database.git",
-                "reference": "8e9a427d98ec0929102ee037016bb47eb7e8b75c"
+                "reference": "cb825ac1cffe1ede98388a9c4e6c4445c26b961d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/database/zipball/8e9a427d98ec0929102ee037016bb47eb7e8b75c",
-                "reference": "8e9a427d98ec0929102ee037016bb47eb7e8b75c",
+                "url": "https://api.github.com/repos/nette/database/zipball/cb825ac1cffe1ede98388a9c4e6c4445c26b961d",
+                "reference": "cb825ac1cffe1ede98388a9c4e6c4445c26b961d",
                 "shasum": ""
             },
             "require": {
@@ -602,22 +602,22 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/database/issues",
-                "source": "https://github.com/nette/database/tree/v3.2.4"
+                "source": "https://github.com/nette/database/tree/v3.2.6"
             },
-            "time": "2024-08-28T01:03:21+00:00"
+            "time": "2025-01-12T15:33:57+00:00"
         },
         {
             "name": "nette/di",
-            "version": "v3.2.3",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/di.git",
-                "reference": "9b9bfb43dac31c7804b2c8900217046cc0ca3307"
+                "reference": "57f923a7af32435b6e4921c0adbc70c619625a17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/di/zipball/9b9bfb43dac31c7804b2c8900217046cc0ca3307",
-                "reference": "9b9bfb43dac31c7804b2c8900217046cc0ca3307",
+                "url": "https://api.github.com/repos/nette/di/zipball/57f923a7af32435b6e4921c0adbc70c619625a17",
+                "reference": "57f923a7af32435b6e4921c0adbc70c619625a17",
                 "shasum": ""
             },
             "require": {
@@ -675,9 +675,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/di/issues",
-                "source": "https://github.com/nette/di/tree/v3.2.3"
+                "source": "https://github.com/nette/di/tree/v3.2.4"
             },
-            "time": "2024-10-05T03:14:33+00:00"
+            "time": "2025-01-10T04:57:37+00:00"
         },
         {
             "name": "nette/forms",
@@ -758,16 +758,16 @@
         },
         {
             "name": "nette/http",
-            "version": "v3.3.1",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/http.git",
-                "reference": "5f8f07d4242cb48c6b33d89daa3ea6ddf9668cfc"
+                "reference": "3e2587b34beb66f238f119b12fbb4f0b9ab2d6d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/http/zipball/5f8f07d4242cb48c6b33d89daa3ea6ddf9668cfc",
-                "reference": "5f8f07d4242cb48c6b33d89daa3ea6ddf9668cfc",
+                "url": "https://api.github.com/repos/nette/http/zipball/3e2587b34beb66f238f119b12fbb4f0b9ab2d6d1",
+                "reference": "3e2587b34beb66f238f119b12fbb4f0b9ab2d6d1",
                 "shasum": ""
             },
             "require": {
@@ -833,9 +833,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/http/issues",
-                "source": "https://github.com/nette/http/tree/v3.3.1"
+                "source": "https://github.com/nette/http/tree/v3.3.2"
             },
-            "time": "2024-11-04T16:30:18+00:00"
+            "time": "2025-01-12T16:27:57+00:00"
         },
         {
             "name": "nette/mail",
@@ -1247,24 +1247,24 @@
         },
         {
             "name": "nette/safe-stream",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/safe-stream.git",
-                "reference": "b9a275f7f2517cacac6ab4360a73722340478bce"
+                "reference": "49a4924a761b053259a720633808305178376443"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/safe-stream/zipball/b9a275f7f2517cacac6ab4360a73722340478bce",
-                "reference": "b9a275f7f2517cacac6ab4360a73722340478bce",
+                "url": "https://api.github.com/repos/nette/safe-stream/zipball/49a4924a761b053259a720633808305178376443",
+                "reference": "49a4924a761b053259a720633808305178376443",
                 "shasum": ""
             },
             "require": {
-                "php": "8.0 - 8.3"
+                "php": "8.0 - 8.4"
             },
             "require-dev": {
                 "nette/tester": "^2.4",
-                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan": "^2",
                 "tracy/tracy": "^2.8"
             },
             "type": "library",
@@ -1309,9 +1309,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/safe-stream/issues",
-                "source": "https://github.com/nette/safe-stream/tree/v3.0.1"
+                "source": "https://github.com/nette/safe-stream/tree/v3.0.2"
             },
-            "time": "2023-08-05T18:54:54+00:00"
+            "time": "2025-01-01T21:32:26+00:00"
         },
         {
             "name": "nette/schema",
@@ -1590,6 +1590,59 @@
             "time": "2024-08-07T15:39:19+00:00"
         },
         {
+            "name": "psr/container",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/2.0.2"
+            },
+            "time": "2021-11-05T16:47:00+00:00"
+        },
+        {
             "name": "radekdostal/nette-datetimepicker",
             "version": "3.2.1",
             "source": {
@@ -1637,73 +1690,6 @@
             "time": "2024-02-12T07:28:50+00:00"
         },
         {
-            "name": "symfony/deprecation-contracts",
-            "version": "v3.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
-                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "function.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "A generic function and convention to trigger deprecation notices",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.5.1"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-25T14:20:29+00:00"
-        },
-        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.31.0",
             "source": {
@@ -1729,8 +1715,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -1805,8 +1791,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -1883,8 +1869,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -1967,8 +1953,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -2023,25 +2009,24 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v6.4.13",
+            "version": "v7.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "8cc779d88d12e440adaa26387bcfc25744064afe"
+                "reference": "b28732e315d81fbec787f838034de7d6c9b2b902"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/8cc779d88d12e440adaa26387bcfc25744064afe",
-                "reference": "8cc779d88d12e440adaa26387bcfc25744064afe",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/b28732e315d81fbec787f838034de7d6c9b2b902",
+                "reference": "b28732e315d81fbec787f838034de7d6c9b2b902",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/property-info": "^5.4|^6.0|^7.0"
+                "php": ">=8.2",
+                "symfony/property-info": "^6.4|^7.0"
             },
             "require-dev": {
-                "symfony/cache": "^5.4|^6.0|^7.0"
+                "symfony/cache": "^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -2080,7 +2065,7 @@
                 "reflection"
             ],
             "support": {
-                "source": "https://github.com/symfony/property-access/tree/v6.4.13"
+                "source": "https://github.com/symfony/property-access/tree/v7.2.3"
             },
             "funding": [
                 {
@@ -2096,39 +2081,40 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:18:03+00:00"
+            "time": "2025-01-17T10:56:55+00:00"
         },
         {
             "name": "symfony/property-info",
-            "version": "v6.4.16",
+            "version": "v7.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",
-                "reference": "e4782ec1c2b6896e820896357f6a3d02249e63eb"
+                "reference": "dedb118fd588a92f226b390250b384d25f4192fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/e4782ec1c2b6896e820896357f6a3d02249e63eb",
-                "reference": "e4782ec1c2b6896e820896357f6a3d02249e63eb",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/dedb118fd588a92f226b390250b384d25f4192fe",
+                "reference": "dedb118fd588a92f226b390250b384d25f4192fe",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
-                "symfony/string": "^5.4|^6.0|^7.0"
+                "php": ">=8.2",
+                "symfony/string": "^6.4|^7.0",
+                "symfony/type-info": "~7.1.9|^7.2.2"
             },
             "conflict": {
-                "doctrine/annotations": "<1.12",
                 "phpdocumentor/reflection-docblock": "<5.2",
                 "phpdocumentor/type-resolver": "<1.5.1",
-                "symfony/dependency-injection": "<5.4|>=6.0,<6.4"
+                "symfony/cache": "<6.4",
+                "symfony/dependency-injection": "<6.4",
+                "symfony/serializer": "<6.4"
             },
             "require-dev": {
-                "doctrine/annotations": "^1.12|^2",
                 "phpdocumentor/reflection-docblock": "^5.2",
                 "phpstan/phpdoc-parser": "^1.0|^2.0",
-                "symfony/cache": "^5.4|^6.0|^7.0",
-                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
-                "symfony/serializer": "^5.4|^6.4|^7.0"
+                "symfony/cache": "^6.4|^7.0",
+                "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/serializer": "^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -2164,7 +2150,7 @@
                 "validator"
             ],
             "support": {
-                "source": "https://github.com/symfony/property-info/tree/v6.4.16"
+                "source": "https://github.com/symfony/property-info/tree/v7.2.3"
             },
             "funding": [
                 {
@@ -2180,24 +2166,24 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-27T10:18:02+00:00"
+            "time": "2025-01-27T11:08:17+00:00"
         },
         {
             "name": "symfony/string",
-            "version": "v6.4.15",
+            "version": "v7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "73a5e66ea2e1677c98d4449177c5a9cf9d8b4c6f"
+                "reference": "446e0d146f991dde3e73f45f2c97a9faad773c82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/73a5e66ea2e1677c98d4449177c5a9cf9d8b4c6f",
-                "reference": "73a5e66ea2e1677c98d4449177c5a9cf9d8b4c6f",
+                "url": "https://api.github.com/repos/symfony/string/zipball/446e0d146f991dde3e73f45f2c97a9faad773c82",
+                "reference": "446e0d146f991dde3e73f45f2c97a9faad773c82",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-intl-grapheme": "~1.0",
                 "symfony/polyfill-intl-normalizer": "~1.0",
@@ -2207,11 +2193,12 @@
                 "symfony/translation-contracts": "<2.5"
             },
             "require-dev": {
-                "symfony/error-handler": "^5.4|^6.0|^7.0",
-                "symfony/http-client": "^5.4|^6.0|^7.0",
-                "symfony/intl": "^6.2|^7.0",
+                "symfony/emoji": "^7.1",
+                "symfony/error-handler": "^6.4|^7.0",
+                "symfony/http-client": "^6.4|^7.0",
+                "symfony/intl": "^6.4|^7.0",
                 "symfony/translation-contracts": "^2.5|^3.0",
-                "symfony/var-exporter": "^5.4|^6.0|^7.0"
+                "symfony/var-exporter": "^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -2250,7 +2237,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v6.4.15"
+                "source": "https://github.com/symfony/string/tree/v7.2.0"
             },
             "funding": [
                 {
@@ -2266,7 +2253,82 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-13T13:31:12+00:00"
+            "time": "2024-11-13T13:31:26+00:00"
+        },
+        {
+            "name": "symfony/type-info",
+            "version": "v7.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/type-info.git",
+                "reference": "269344575181c326781382ed53f7262feae3c6a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/type-info/zipball/269344575181c326781382ed53f7262feae3c6a4",
+                "reference": "269344575181c326781382ed53f7262feae3c6a4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "psr/container": "^1.1|^2.0"
+            },
+            "require-dev": {
+                "phpstan/phpdoc-parser": "^1.0|^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\TypeInfo\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathias Arlaud",
+                    "email": "mathias.arlaud@gmail.com"
+                },
+                {
+                    "name": "Baptiste LEDUC",
+                    "email": "baptiste.leduc@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Extracts PHP types information.",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "PHPStan",
+                "phpdoc",
+                "symfony",
+                "type"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/type-info/tree/v7.2.4"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-02-25T15:19:41+00:00"
         },
         {
             "name": "tracy/tracy",
@@ -2440,7 +2502,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">= 8.1"
+        "php": ">= 8.3"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"
