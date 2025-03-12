@@ -53,6 +53,8 @@ class SignPresenter extends BaseBasePresenter
 			$this->redirect('Charts:');
 		} catch (Nette\Security\AuthenticationException $e) {
 			$form->addError('Nesprávné přihlašovací jméno nebo heslo.');
+		} catch (\App\Model\LoginProtectionException $e) {
+			$form->addError($e->getMessage());
 		}
 	}
 

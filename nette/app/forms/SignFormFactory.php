@@ -6,6 +6,9 @@ use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 
+/*
+ * This file is not used!!!
+ */
 
 class SignFormFactory
 {
