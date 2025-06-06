@@ -22,7 +22,7 @@
     "bootstrap": "3.4.1",
     "jquery": "3.4.1",
     "jquery-ui": "1.12.1",
-    "nette-forms": "3.2.5",
-    "ublaboo-datagrid": "6.10.0"
+    "nette-forms": "3.2.6",
+    "ublaboo-datagrid": "7.0.0"
   }
 }
