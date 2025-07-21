@@ -1,0 +1,21 @@
+{
+	"type": "module",
+	"dependencies": {
+		"jquery": "^3.7.1",
+		"jquery-ui": "^1.14.1",
+		"bootstrap": "^3.4.1",
+		"naja": "^3.2.1",
+		"nette-forms": "3.2.0",
+		"ublaboo-datagrid": "6.9.1",
+		"@contributte/datagrid": "7.0.0"
+	},
+	"devDependencies": {
+		"@nette/vite-plugin": "^1.0.1",
+		"@rollup/plugin-inject": "^5.0.5",
+		"vite": "^6.3.5"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build"
+	}
+}

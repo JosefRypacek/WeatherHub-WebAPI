@@ -21,40 +21,6 @@
 
 {block scripts}
 {include parent}
-<script type="text/javascript">
-	$(document).ready(function ()
-	{
-		$('input.datepicker').datepicker(
-			{
-				firstDay: 1,
-				changeMonth: true,
-				changeYear: true,
-				//dateFormat: 'mm/dd/yy',
-				dateFormat: 'dd.mm.yy',
-				yearRange: '2016:2026'
-			});
-	});
-	$.datepicker.regional['cs'] = {
-                closeText: 'Cerrar',
-                prevText: 'Předchozí',
-                nextText: 'Další',
-                currentText: 'Hoy',
-                monthNames: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-                monthNamesShort: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-//              monthNamesShort: ['Le', 'Ún', 'Bř', 'Du', 'Kv', 'Čn', 'Čc', 'Sr', 'Zá', 'Ří', 'Li', 'Pr'],
-                dayNames: ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'],
-                dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So', ],
-                dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
-                weekHeader: 'Sm',
-                dateFormat: 'dd.mm.yy',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: ''};
- 
-	$.datepicker.setDefaults($.datepicker.regional['cs']);
-</script>
-
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" n:syntax="double">
 	google.charts.load('current', {'packages': ['corechart']});
@@ -82,6 +48,13 @@
 						    [new Date({{$item->ts * 1000}}), {{$item->t1}}],
 					    {{/if}}
 					{{/foreach}}
+					{{if count($device->related('measurement')->select('ROUND(AVG(ts),1) AS ts, ROUND(AVG(h),1) AS h, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))')) == 0 }} 
+						{{if in_array($device->type, $deviceTypeList['h'])}}
+						    [new Date(0), 0, 0],
+					    {{else}}
+						    [new Date(0), 0],
+					    {{/if}}
+					{{/if}}
 				]);
 				formatter_date.format(data[{{$key}}], 0);
 				formatter_temp.format(data[{{$key}}], 1);
@@ -129,6 +102,9 @@
 					    {{first}}{{var $start = $item->r}}{{/first}}
 					    [new Date({{$item->ts * 1000}}), {{$item->r - $start}}],
 					{{/foreach}}
+					{{if count($device->related('measurement')->select('ROUND(AVG(ts),1) AS ts,  ROUND(AVG(r),1) AS r')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))')) == 0 }} 
+						[new Date(0), 0],
+					{{/if}}
 				]);
 				formatter_date.format(data[{{$key.'r'}}], 0);
 				formatter_rain.format(data[{{$key.'r'}}], 1);
@@ -160,6 +136,9 @@
 					{{foreach $device->related('measurement')->select('ROUND(AVG(ts),1) AS ts, ROUND(AVG(ws),1) AS ws, ROUND(AVG(wg),1) AS wg')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))') as $item}}
 					    [new Date({{$item->ts * 1000}}), {{$item->ws}}, {{$item->wg}}],
 					{{/foreach}}
+					{{if count($device->related('measurement')->select('ROUND(AVG(ts),1) AS ts, ROUND(AVG(ws),1) AS ws, ROUND(AVG(wg),1) AS wg')->where(array('ts >=' => $from, 'ts <=' => $to))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/('.$groupMinutes.'*60)))')) == 0 }} 
+						[new Date(0), 0, 0],
+					{{/if}}
 				]);
 				formatter_date.format(data[{{$key}}], 0);
 				formatter_wind.format(data[{{$key}}], 1);
@@ -239,34 +218,5 @@
 		var chart = new google.visualization.LineChart(document.getElementById('curve_chart_all'));
 		chart.draw(data["allinone"], options);
 	}
-
-
-	var wWidth = $(window).width(); // default width
-
-	// create trigger to resizeEnd event - wait 500ms before redraw
-	$(window).resize(function () {
-		if (this.resizeTO) {
-			clearTimeout(this.resizeTO);
-		}
-		this.resizeTO = setTimeout(function () {
-			$(this).trigger('resizeEnd');
-		}, 500);
-	});
-	// redraw graph when window resize is completed  
-	$(window).on('resizeEnd', function () {
-		var oldWidth = wWidth;
-		wWidth = $(window).width();
-		if (oldWidth === wWidth) {
-			return; // do NOT handle height change
-		}
-		if (google.visualization === undefined) {
-			return; // google lib not loaded yet
-		}
-		
-		var r = confirm("Změnila se velikost stránky. Chceš překreslit grafy?");
-		if (r == true) {
-			drawChart(true);
-		}
-	});
 </script>
 {/block}

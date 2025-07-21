@@ -10,32 +10,9 @@
 		<meta name="robots" content="noindex, nofollow"> {* !!!!! Disable search robots !!!!! *}
 
 		<title>{ifset title}{include title|stripHtml} | {/ifset}{$appName}</title>
-
-		{* jQuery UI & Bootstrap styles *}
-		<link rel="stylesheet" href="{$basePath}/bower_components/jquery-ui/themes/smoothness/jquery-ui.css" >
-		<link rel="stylesheet" href="{$basePath}/bower_components/bootstrap/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="{$basePath}/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-                <link href="https://cdn.jsdelivr.net/npm/ublaboo-datagrid@6.9.1/assets/datagrid-spinners.min.css" rel="stylesheet"> {* OLDER THAN REQUIRED, BUT WORKS *}
-		{* nette styles *}
-		<link rel="stylesheet" href="{$basePath}/w/css/style.css">
-
-		<style>
-			body {
-				padding-top: 20px;
-				padding-bottom: 20px;
-			}
-
-			.navbar {
-				margin-bottom: 20px;
-			}
-
-			input.datepicker
-			{
-				border: 1px solid #C0C0C0;
-				padding: 2pt;
-				background: transparent url({$basePath.'/w/images/calendar.png'}) no-repeat right;
-			}
-		</style>
+                
+		{asset? 'main.js'}
+		{block scripts}{/block}
 		{block head}{/block}
 	</head>
 
@@ -58,14 +35,6 @@
 							<li n:class="$presenter->isLinkCurrent('Charts:') ? active"><a n:href="Charts:">Grafy</a></li>
 							<li n:class="$presenter->isLinkCurrent('Charts:get1Y') ? active"><a n:href="Charts:get1Y">Roční graf</a></li>
 							<li n:class="$presenter->isLinkCurrent('Settings:')? active"><a n:href="Settings:">Nastavení</a></li>
-							<!--<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li role="separator" class="divider"></li>
-								<li class="dropdown-header">Nav header</li>
-								<li><a href="#">Separated link</a></li>
-							</ul>
-						</li>-->
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li n:if="$user->isLoggedIn()"><a n:href="Sign:change">Změna hesla</a></li>
@@ -80,15 +49,5 @@
 
 			{include content}
 		</div> <!-- /container -->
-
-		{block scripts}
-		{* jQuery, jQuery UI & Bootstrap scripts *}
-		<script src="{$basePath}/bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="{$basePath}/bower_components/jquery-ui/jquery-ui.min.js"></script>
-		<script src="{$basePath}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		{* nette scripts *}
-		<script src="{$basePath}/bower_components/nette-forms/src/assets/netteForms.min.js"></script>
-		<!--<script src="{$basePath}/w/js/main.js"></script>-->
-		{/block}
 	</body>
 </html>

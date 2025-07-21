@@ -1,7 +1,7 @@
 #ajax-spinner {
 	margin: 15px 0 0 15px;
 	padding: 13px;
-	background: white url('../images/spinner.gif') no-repeat 50% 50%;
+	background: white url('images/spinner.gif') no-repeat 50% 50%;
 	font-size: 0;
 	z-index: 123456;
 	display: none;
@@ -20,7 +20,8 @@ a[href^="#error:"] {
 	color: white;
 }
 
-form th, form td {
+form th,
+form td {
 	vertical-align: top;
 	font-weight: normal;
 }
@@ -36,4 +37,17 @@ form .required label {
 form .error {
 	color: #D00;
 	font-weight: bold;
+}
+
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.navbar {
+	margin-bottom: 20px;
+}
+
+input.datepicker {
+	background: transparent url('images/calendar.png') no-repeat right;
 }

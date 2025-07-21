@@ -18,6 +18,11 @@ session:
 	# need to set different session name due to multiple nette apps on one domain
 	name: WeatherHub
 
+assets:
+	mapping:
+		default:
+			path: www/assets
+			type: vite
 
 services:
 	- App\RouterFactory::createRouter

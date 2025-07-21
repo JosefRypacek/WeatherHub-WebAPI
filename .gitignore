@@ -1,4 +1,5 @@
-/nbproject/
-/bower_components/
+# npm & Vite
+node_modules
+www/assets
 
 maintenanceON

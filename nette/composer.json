@@ -1,12 +1,8 @@
 {
-    "#1": "***************** WHAT TO DO AFTER UPDATE?! *************************",
-    "nette/nette":					"client-side [BOWER]",
-    "ublaboo/datagrid":					"client-side [BOWER]",
-    "#2": "*********************************************************************",
-
     "require": {
         "php": ">= 8.3",
         "nette/nette": "~3.2.0",
+        "nette/assets": "^1.0.0",
         "ublaboo/datagrid": "~7.0.0",
 	"radekdostal/nette-datetimepicker": "~3.2",
         "mitoteam/jpgraph": "^10.4"
