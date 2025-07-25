@@ -112,11 +112,11 @@ class ChartsPresenter extends BasePresenter
 		// Initialize DateTime objects
 		$this->from = new \Nette\Utils\DateTime();
 		$this->to = new \Nette\Utils\DateTime();
-		$this->from->sub(new \DateInterval('P1Y')); // Today and 2 days in the past
+		$this->from->sub(new \DateInterval('P1Y'));
 		$this->from->setTime(0, 0, 0);
 
 		// Setup the graph
-                \mitoteam\jpgraph\MtJpGraph::load(['line', 'date']);
+		\mitoteam\jpgraph\MtJpGraph::load(['line', 'date']);
 		$graph = new \Graph(1900, 800);
 		$graph->SetScale('datlin');
 		
@@ -135,31 +135,39 @@ class ChartsPresenter extends BasePresenter
 
 		foreach ($devices as $device) {
 		    if (in_array($device->type, $this->deviceTypeList['t1'])) {
-			$datay1 = array();
-			$datax1 = array();
-			// nette related is (or may be) memory killer!
-			// can use pure query - is 5x better (have 5 devices - is there any corelation?)
+				$datay1 = array();
+				$datax1 = array();
+				// nette related is (or may be) memory killer!
+				// can use pure query - is 5x better (have 5 devices - is there any corelation?)
 
-                        // these queries (also in default.lette) are modified to work with mode only_full_group_by ("device_id, " added into group() even not needed
-                        // agregating data (3600s) to fit into memory limit
-			$related = $device->related('measurement')->select('ROUND(AVG(measurement.ts),0) AS ts, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/(3600)))');
-			foreach ($related as $value) {
-				$datax1[] = $value->ts;
-				$datay1[] = $value->t1;
-			}
-                        
-			// Create line
-			$p1 = new \LinePlot($datay1, $datax1);
-			$graph->Add($p1);
-			$color = $device->color ? $device->color : '#000000';
-			$p1->SetColor($color);
-			$p1->SetLegend($device->name);
+				// these queries (also in default.lette) are modified to work with mode only_full_group_by ("device_id, " added into group() even not needed
+				// agregating data (3600s) to fit into memory limit
+				$related = $device->related('measurement')->select('ROUND(AVG(measurement.ts),0) AS ts, ROUND(AVG(t1),1) AS t1')->where(array('ts >=' => $this->from->getTimestamp(), 'ts <=' => $this->to->getTimestamp()))->group('device_id, CONCAT(device_id, \'_\', FLOOR(ts/(3600)))');
+				foreach ($related as $value) {
+					if ($value->t1 > 250) {
+						// filter out invalid values (error codes?)
+						continue;
+					}
+					$datax1[] = $value->ts;
+					$datay1[] = $value->t1;
+				}
+
+				if (count($related) == 0 ) {
+					continue;
+				}
+							
+				// Create line
+				$p1 = new \LinePlot($datay1, $datax1);
+				$graph->Add($p1);
+				$color = $device->color ? $device->color : '#000000';
+				$p1->SetColor($color);
+				$p1->SetLegend($device->name);
 		    }
 		}
 
 
 		$graph->legend->SetFrameWeight(1); // border around legend
-		$graph->legend->Pos(0.5,0.01, 'center', 'top');
+		$graph->legend->Pos(0.5, 0.01, 'center', 'top');
 
 		$graph->Stroke(); // generate graph
 		$this->terminate();
