@@ -112,6 +112,10 @@ class CronPresenter extends BaseBasePresenter
 			 *	4: East, 5: East-southeast, 6: Southeast, 7: South-Southeast
 			 *	8: South, 9: South-southwest, 10: Southwest, 11: West-southwest
 			 *	12:West, 13: West-northwest, 14: Northwest, 15: Northnorthwest
+                         *
+                         * 
+                         * If a sensor was not connected the value 43530 is returned.
+                         * If the measurement of a sensor was out of range the value 65295 is returned.
 			 */
 
 			// Example dumps of interesting parts of response
@@ -163,12 +167,16 @@ class CronPresenter extends BaseBasePresenter
 
                                         // Temperature1
                                         if (in_array($device->devicetypeid, $this->deviceTypeList['t1'])) {
-                                                $insertRow['t1'] = $measurement->t1;
+                                                if ($measurement->t1 != 43530 && $measurement->t1 != 65295) {
+                                                        $insertRow['t1'] = $measurement->t1;
+                                                }
                                         }
 
                                         // Temperature2
                                         if (in_array($device->devicetypeid, $this->deviceTypeList['t2'])) {
-                                                $insertRow['t2'] = $measurement->t2;
+                                                if ($measurement->t2 != 43530 && $measurement->t2 != 65295) {
+                                                        $insertRow['t2'] = $measurement->t2;
+                                                }
                                         }
 
                                         // Humidity
@@ -233,12 +241,16 @@ class CronPresenter extends BaseBasePresenter
 
                                 // Temperature1
                                 if (in_array($deviceDb->type, $this->deviceTypeList['t1'])) {
-                                        $insertRow['t1'] = $measurement->t1;
+                                        if ($measurement->t1 != 43530 && $measurement->t1 != 65295) {
+                                                $insertRow['t1'] = $measurement->t1;
+                                        }
                                 }
 
                                 // Temperature2
                                 if (in_array($deviceDb->type, $this->deviceTypeList['t2'])) {
-                                        $insertRow['t2'] = $measurement->t2;
+                                        if ($measurement->t2 != 43530 && $measurement->t2 != 65295) {
+                                                $insertRow['t2'] = $measurement->t2;
+                                        }
                                 }
 
                                 // Humidity
