@@ -1,13 +1,13 @@
 {
+	"name": "weatherhub",
+	"version": "1.0.0",
 	"type": "module",
 	"dependencies": {
-		"jquery": "^3.7.1",
-		"jquery-ui": "^1.14.1",
-		"bootstrap": "^3.4.1",
-		"naja": "^3.2.1",
-		"nette-forms": "3.2.0",
-		"ublaboo-datagrid": "6.9.1",
-		"@contributte/datagrid": "7.0.0"
+		"jquery": "^4.0.0",
+		"bootstrap": "^5.3.8",
+		"naja": "^3.3.3",
+		"nette-forms": "3.5.3",
+		"@contributte/datagrid": "^7.1.0"
 	},
 	"devDependencies": {
 		"@nette/vite-plugin": "^1.0.1",

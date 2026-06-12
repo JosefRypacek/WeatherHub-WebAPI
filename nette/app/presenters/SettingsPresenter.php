@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use Nette\Application\UI;
+use Contributte\Datagrid;
 
 
 class SettingsPresenter extends BasePresenter
@@ -19,7 +20,7 @@ class SettingsPresenter extends BasePresenter
 
 	protected function createComponentDeviceGrid($name)
 	{
-		$grid = new \Ublaboo\DataGrid\DataGrid($this, $name);
+		$grid = new Datagrid\Datagrid($this, $name);
 
                 $grid->setPagination(false);
 
@@ -51,7 +52,7 @@ class SettingsPresenter extends BasePresenter
 
 	protected function createComponentUserGrid($name)
 	{
-		$grid = new \Ublaboo\DataGrid\DataGrid($this, $name);
+		$grid = new Datagrid\Datagrid($this, $name);
 
                 $grid->setPagination(false);
 

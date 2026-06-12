@@ -1,3 +1,0 @@
-# ignore content of this dir, but commit the directory itself
-*
-!.gitignore

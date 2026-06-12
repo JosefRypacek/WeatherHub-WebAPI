@@ -48,6 +48,7 @@ body {
 	margin-bottom: 20px;
 }
 
-input.datepicker {
-	background: transparent url('images/calendar.png') no-repeat right;
+/* Fix Datagrid styles conflict on datepicker input elements */
+input.datepicker:not(.active) {
+	display: block !important;
 }

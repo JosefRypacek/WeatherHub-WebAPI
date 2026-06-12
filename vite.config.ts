@@ -7,7 +7,6 @@ export default defineConfig({
 		inject({
 			$: 'jquery', // Nastaví $ a jQuery jako globální proměnné.
 			jQuery: 'jquery',
-			naja: 'naja', // Mapuje globální naja na npm balíček 'naja'
 		}),
 		nette(
 			//{input: 'main.js',} // not required when defined below

@@ -30,13 +30,15 @@ class ChartsPresenter extends BasePresenter
 		$form = new UI\Form;
 
 		$form->addDatePicker('from', 'Od (00:00:00):', 10)
-				//->setFormat('m/d/Y') // for datepicker option dateFormat: 'mm/dd/yy'
+				->setFormat('Y-m-d')
+				->setType('date')
 				->setAttribute('size', 10)
 				->setReadOnly(FALSE)
 				->setRequired();
 
 		$form->addDatePicker('to', 'Do (23:59:59):', 10)
-				//->setFormat('m/d/Y') // for datepicker option dateFormat: 'mm/dd/yy'
+				->setFormat('Y-m-d')
+				->setType('date')
 				->setAttribute('size', 10)
 				->setReadOnly(FALSE)
 				->setRequired();
