@@ -11,12 +11,12 @@ use Nette\Application\Routers\Route;
 
 final class RouterFactory
 {
-        use Nette\StaticClass;
+	use Nette\StaticClass;
 
 	public static function createRouter(): RouteList
 	{
 		$router = new RouteList;
-		$router[] = new Route('<presenter>/<action>[/<id>]', 'Charts:default');
+		$router->addRoute('<presenter>/<action>[/<id>]', 'Charts:default');
 		return $router;
 	}
 
